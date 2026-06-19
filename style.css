@@ -123,4 +123,19 @@ article h3 a:hover,
     opacity: 0.85; 
 }
 
+/* Master Override: Strips blue color & default underlines from all links */
+a, a:visited, a:link, a:active {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* Restores hover effects specifically for your navigation and custom blocks */
+nav a:hover {
+    color: #111111 !important;
+    text-decoration: underline !important;
+}
+
+.contact-link:hover {
+    opacity: 0.7 !important;
+}
 
