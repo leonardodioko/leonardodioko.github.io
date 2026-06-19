@@ -9,91 +9,97 @@
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com" rel="stylesheet">
     
-    <!-- Links to your main global styles -->
+    <!-- Link to your shared global stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Unique styles built specifically for this form layout -->
     <style>
-        .form-container { 
-            max-width: 500px; 
-            margin: 40px auto 0 auto; 
-            text-align: left; 
+        /* Restores your exact preferred inline minimalist layout variables */
+        .minimalist-form-group {
+            margin-bottom: 30px;
         }
-        .form-group { 
-            margin-bottom: 25px; 
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
+        .minimalist-label {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.95rem;
-            color: #333333;
-            background: #ffffff;
-            border: 1px solid #eeeeee;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            transition: border-color 0.2s ease;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #777777;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
-        .form-control:focus { 
-            outline: none; 
-            border-color: #111111; 
-        }
-        .btn-submit {
+        /* Completely strips the default box appearance, leaving an elegant bottom line */
+        .minimalist-input {
             width: 100%;
-            padding: 14px;
-            background-color: #111111;
-            color: #ffffff;
+            background: transparent;
             border: none;
-            border-radius: 4px;
+            border-bottom: 1px solid #cccccc;
             font-family: 'Playfair Display', Didot, Georgia, serif;
             font-size: 1.15rem;
+            color: #333333;
+            padding: 5px 0;
+            outline: none;
+            transition: border-bottom-color 0.2s ease;
+        }
+        .minimalist-input:focus {
+            border-bottom-color: #111111;
+        }
+        /* Restores the specific underlined link style button you loved */
+        .minimalist-submit-btn {
+            background: none;
+            border: none;
+            font-family: 'Playfair Display', Didot, Georgia, serif;
+            font-size: 1.15rem;
+            color: #111111;
+            font-weight: 600;
+            border-bottom: 1px solid #111111;
+            padding-bottom: 1px;
             cursor: pointer;
             transition: opacity 0.2s ease;
+            display: block;
+            margin: 40px auto 0 auto;
         }
-        .btn-submit:hover { 
-            opacity: 0.85; 
+        .minimalist-submit-btn:hover {
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Main Site Navigation Bar -->
+        <!-- Shared Site Navigation -->
         <nav>
             <a href="index.html">Overview</a>
             <a href="news.html">News & Articles</a>
             <a href="contact.html">Contact Us</a>
         </nav>
 
-        <!-- Form Section -->
-        <section class="form-container">
+        <header style="text-align: center; margin-bottom: 50px;">
             <h2>We'd love to hear from you</h2>
-            <p>Please use the form below to get in touch with our team.</p>
-            <br>
+            <p style="font-size: 1.15rem; color: #555555;">Please submit your details below to reach our repository handlers.</p>
+        </header>
 
-            <!-- FormBold Processing Link -->
-            <form action="https://formbold.com" method="POST">
-                
-                <div class="form-group">
-                    <div class="title">Full Name</div>
-                    <input type="text" name="name" class="form-control" placeholder="John Doe" required>
-                </div>
+        <!-- Clean FormBold Form Connection -->
+        <form action="https://formbold.com" method="POST" style="max-width: 600px; margin: 0 auto;">
+            
+            <div class="minimalist-form-group">
+                <div class="minimalist-label">Full Name</div>
+                <input type="text" name="name" class="minimalist-input" required>
+            </div>
 
-                <div class="form-group">
-                    <div class="title">Email Address</div>
-                    <input type="email" name="email" class="form-control" placeholder="name@company.com" required>
-                </div>
+            <div class="minimalist-form-group">
+                <div class="minimalist-label">Email Address</div>
+                <input type="email" name="email" class="minimalist-input" required>
+            </div>
 
-                <div class="form-group">
-                    <div class="title">Message</div>
-                    <textarea name="message" class="form-control" rows="6" placeholder="Your message here..." required></textarea>
-                </div>
+            <div class="minimalist-form-group">
+                <div class="minimalist-label">Message</div>
+                <textarea name="message" class="minimalist-input" rows="4" required style="resize: vertical;"></textarea>
+            </div>
 
-                <button type="submit" class="btn-submit">Send Message &rarr;</button>
-            </form>
-        </section>
+            <!-- Styled exactly like your original elegant text link -->
+            <button type="submit" class="minimalist-submit-btn">Send Message &rarr;</button>
+        </form>
 
-        <!-- Footer Module -->
+        <!-- Shared Global Layout Footer -->
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
             <p>&copy; 2026 Dioko & Sons. All rights reserved.</p>
