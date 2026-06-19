@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dioko & Sons | Modern Classic Corporate</title>
     
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <!-- Repaired Google Fonts linking strings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,7 +16,7 @@
         html { font-size: 90%; } /* Master 10% Scale Down */
         
         body {
-            font-family: 'Playfair Display', Didot, Georgia, serif;
+            font-family: 'Playfair Display', Didot, Bodoni MT, Georgia, serif;
             color: #222222;
             background-color: #fcfcfc;
             line-height: 1.75;
@@ -65,6 +66,7 @@
 <body>
 
     <div class="container">
+        <!-- Main Navigation Tab Links -->
         <nav>
             <a href="index.html">Overview</a>
             <a href="news.html">News & Articles</a>
@@ -73,26 +75,32 @@
 
         <header>
             <img class="company-logo" src="logo.png" alt="Company Crest Mark">
-            <h1></h1>
-            <p style="font-size: 1.35rem; font-style: italic; color: #666;"></p>
+            <h1>Dioko & Sons</h1>
+            <p style="font-size: 1.35rem; font-style: italic; color: #666;">Built on Trust. Preserved for Generations.</p>
         </header>
 
+        <!-- Business Nature & Mission -->
         <section id="about">
             <h2>Our Nature & Mission</h2>
             <p><strong>What We Do:</strong> Insert a direct explanation of your business services, products, or industry practice here. Keep it concise, professional, and targeted toward your ideal client profile.</p>
-            <p><strong>Our Mission:</strong> To bridge the gap between classic foundations and contemporary solutions. We thrive on delivering long-term value, operating under principles of absolute clarity, meticulous quality, and structural integrity. For immediate corporate consultation alignment, you may reach out to us directly through our </p>
+            
+            <!-- FIXED AND CLOSED PARAGRAPH BLOCK WITH THE INTEGRATED 'CONTACT US' DIRECTIVE LINK -->
+            <p><strong>Our Mission:</strong> To bridge the gap between classic foundations and contemporary solutions. We thrive on delivering long-term value, operating under principles of absolute clarity, meticulous quality, and structural integrity. For immediate corporate consultation alignment, you may reach out to us directly through our <a class="contact-link" href="contact.html">Contact us &rarr;</a></p>
         </section>
 
+        <!-- Leadership Matrix -->
         <section id="leadership">
             <h2>The Founders</h2>
             <p>Our leadership blends decades of classical domain expertise with agile, forward-thinking execution strategies.</p>
             
             <div class="founder-grid">
+                <!-- Founder 1 -->
                 <div class="founder-card">
                     <h3>Founder Name One</h3>
                     <div class="title">Co-Founder & CEO</div>
                     <p class="founder-bio">Brief 2-3 sentence professional background tracking prior success, core philosophy, and areas of execution.</p>
                 </div>
+                <!-- Founder 2 -->
                 <div class="founder-card">
                     <h3>Founder Name Two</h3>
                     <div class="title">Co-Founder & COO</div>
@@ -100,8 +108,6 @@
                 </div>
             </div>
         </section>
-        
-<a class="contact-link" href="contact.html">Contact Interface &rarr;</a>
         
         <footer>
             <p>&copy; 2026 Dioko & Sons. All rights reserved.</p>
