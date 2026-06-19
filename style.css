@@ -52,3 +52,22 @@
 
         footer { text-align: center; color: #999999; margin-top: 70px; }
         footer p { font-size: 0.95rem; margin-bottom: 5px; } /* Targets the text directly */
+
+/* Restore Article Title Link Styling */
+.news-container a, 
+article h3 a,
+.article-link { 
+    color: #111111;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Optional: Elegant underline or color shift on hover */
+.news-container a:hover, 
+article h3 a:hover,
+.article-link:hover {
+    color: #555555;
+    text-decoration: underline;
+}
+
+
