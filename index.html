@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dioko & Sons | Modern Classic Corporate</title>
+    
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { font-size: 90%; } /* Master 10% Scale Down */
+        
+        body {
+            font-family: 'Playfair Display', Didot, Georgia, serif;
+            color: #222222;
+            background-color: #fcfcfc;
+            line-height: 1.75;
+            padding: 0 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 0; }
+        
+        /* Navigation Bar */
+        nav { text-align: right; margin-bottom: 40px; font-size: 0.95rem; letter-spacing: 0.5px; }
+        nav a { color: #555555; text-decoration: none; margin-left: 25px; transition: color 0.2s ease; }
+        nav a:hover { color: #111111; text-decoration: underline; }
+
+        header { margin-bottom: 20px; text-align: center; }
+
+        /* Wide Center Logo Constraints */
+        .company-logo {
+            width: 100%;             
+            max-width: 400px;        
+            height: auto;            
+            display: block;
+            margin: 0 auto 5px auto; 
+        }
+
+        h1, h2, h3 { font-weight: 500; color: #111111; letter-spacing: -0.5px; }
+        h1 { font-size: 3.2rem; margin-bottom: 20px; }
+        h2 { font-size: 1.9rem; margin-bottom: 30px; border-bottom: 1px solid #e5e5e5; padding-bottom: 10px; }
+        p { font-size: 1.15rem; margin-bottom: 25px; color: #333333; }
+        
+        section { margin-bottom: 90px; }
+        
+        /* Founders Matrix */
+        .founder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 30px; }
+        .founder-card { background: #ffffff; padding: 30px; border: 1px solid #eeeeee; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .founder-card h3 { font-size: 1.4rem; margin-bottom: 5px; }
+        .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #777777; margin-bottom: 15px; font-weight: 600; }
+        
+        /* Preserved Sans-Serif Bio Cards */
+        .founder-bio { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 0.95rem; margin: 0; color: #555555; line-height: 1.6; }
+
+        /* Text Link Accent Rules */
+        .contact-link { color: #111111; text-decoration: none; border-bottom: 1px solid #111111; font-weight: 600; padding-bottom: 1px; }
+        .contact-link:hover { opacity: 0.7; }
+
+        footer { text-align: center; font-size: 0.85rem; color: #999999; margin-top: 100px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <a href="index.html">Overview</a>
+            <a href="news.html">News & Articles</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+
+        <header>
+            <img class="company-logo" src="logo.png" alt="Company Crest Mark">
+            <h1>Dioko & Sons</h1>
+            <p style="font-size: 1.35rem; font-style: italic; color: #666;">A contemporary description of your business industry and primary value offer.</p>
+        </header>
+
+        <section id="about">
+            <h2>Our Nature & Mission</h2>
+            <p><strong>What We Do:</strong> Insert a direct explanation of your business services, products, or industry practice here. Keep it concise, professional, and targeted toward your ideal client profile.</p>
+            <p><strong>Our Mission:</strong> To bridge the gap between classic foundations and contemporary solutions. We thrive on delivering long-term value, operating under principles of absolute clarity, meticulous quality, and structural integrity. For immediate corporate consultation alignment, you may reach out to us directly through our <a class="contact-link" href="contact.html">Contact Interface &rarr;</a></p>
+        </section>
+
+        <section id="leadership">
+            <h2>The Founders</h2>
+            <p>Our leadership blends decades of classical domain expertise with agile, forward-thinking execution strategies.</p>
+            
+            <div class="founder-grid">
+                <div class="founder-card">
+                    <h3>Founder Name One</h3>
+                    <div class="title">Co-Founder & CEO</div>
+                    <p class="founder-bio">Brief 2-3 sentence professional background tracking prior success, core philosophy, and areas of execution.</p>
+                </div>
+                <div class="founder-card">
+                    <h3>Founder Name Two</h3>
+                    <div class="title">Co-Founder & COO</div>
+                    <p class="founder-bio">Brief 2-3 sentence professional background showcasing specific operational excellence or creative vision brought to the brand.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Dioko & Sons. All rights reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
