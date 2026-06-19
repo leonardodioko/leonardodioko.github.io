@@ -1,6 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquiry Received | Dioko & Sons</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 90%; }
+        body {
+            font-family: 'Playfair Display', Didot, Georgia, serif;
+            color: #222222;
+            background-color: #fcfcfc;
+            line-height: 1.75;
+            padding: 0 20px;
+        }
+        /* Tight 600px layout match */
+        .container { max-width: 600px; margin: 0 auto; padding: 60px 0; }
+        
+        nav { text-align: right; margin-bottom: 40px; font-size: 0.95rem; }
+        nav a { color: #555555; text-decoration: none; margin-left: 25px; }
+        nav a:hover { color: #111111; text-decoration: underline; }
+        
+        /* Clean message display container */
+        .message-box { 
+            background: #ffffff; 
+            padding: 40px; 
+            border: 1px solid #eeeeee; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02); 
+            margin-top: 30px; 
+            text-align: center; 
+        }
+        
+        header { margin-bottom: 20px; text-align: center; }
+        h1 { font-size: 2.5rem; font-weight: 500; color: #111111; }
+        p { font-size: 1.05rem; color: #333333; line-height: 1.75; }
 
+        .return-link { 
+            font-size: 0.95rem; 
+            font-style: italic; 
+            color: #111111; 
+            text-decoration: none; 
+            font-weight: 600; 
+            display: inline-block; 
+            border-bottom: 1px solid #111111; 
+            margin-top: 25px; 
+            padding-bottom: 1px; 
+        }
+        .return-link:hover { opacity: 0.7; }
+
+        footer { text-align: center; color: #999999; margin-top: 120px; }
+        footer p { font-size: 0.95rem; margin-bottom: 5px; }
+    </style>
+</head>
 <body>
 
     <div class="container">
@@ -10,11 +65,13 @@
             <a href="contact.html">Contact Us</a>
         </nav>
 
-        <header>
-            <h1>Thank you</h1>
-            <p>Your inquiry has been successfully transmitted but it may take some time before we are able to get back to you.</p>
-            <a class="return-link" href="index.html">&larr; Return to main page.</a>
-        </header>
+        <div class="message-box">
+            <header>
+                <h1>Thank You</h1>
+            </header>
+            <p>Your message has been successfully transmitted, though it may take some time before we can get back to you.</p>
+            <a class="return-link" href="index.html">&larr; Return to Overview</a>
+        </div>
 
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
