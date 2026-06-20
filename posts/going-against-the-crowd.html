@@ -43,6 +43,20 @@
         
         footer { text-align: center; color: #999999; margin-top: 100px; }
         footer p { font-size: 0.95rem; margin-bottom: 5px; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+  .pf { font-family: 'Playfair Display', Didot, Georgia, serif; }
+  .chart-wrap { border: 1px solid #e5e5e5; background: #fcfcfc; padding: 32px 32px 24px; margin-bottom: 40px; }
+  .chart-title { font-family: 'Playfair Display', Didot, Georgia, serif; font-size: 1.05rem; font-weight: 500; color: #111; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .chart-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.78rem; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+  .legend { display: flex; gap: 24px; margin-bottom: 18px; }
+  .leg-item { display: flex; align-items: center; gap: 7px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.78rem; color: #555; text-transform: uppercase; letter-spacing: 0.7px; }
+  .leg-line { width: 24px; height: 1.5px; display: inline-block; }
+  .leg-line.solid { background: #222; }
+  .leg-line.dashed { background: repeating-linear-gradient(to right, #888 0, #888 4px, transparent 4px, transparent 8px); }
+  .canvas-outer { position: relative; width: 100%; height: 200px; }
+  .caption { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.73rem; color: #aaa; margin-top: 28px; border-top: 1px solid #e5e5e5; padding-top: 14px; line-height: 1.5; }
+
     </style>
 </head>
 <body>
@@ -76,16 +90,33 @@ The difficulty, of course, is psychological. Being contrarian means being wrong 
 VvisualizeVvisualize show_widgetThe charts illustrate the thesis starkly across both historical episodes. In the dotcom era, the consensus bet on NASDAQ technology names produced a spectacular rise and catastrophic collapse, while S&P 500 Energy — completely ignored during the mania — compounded steadily throughout. The pre-GFC pattern is nearly identical: US financials peaked and then cratered, while commodities and emerging markets (the contrarian trade of the early 2000s) delivered dramatically superior cumulative returns even accounting for their own 2008 drawdown.
 The lesson across both periods is consistent: the crowd's enthusiasm is precisely what destroys the return. By the time a sector is widely loved, its upside is already priced in — and its downside is not.</p>
             
-            <!-- THE 4-PHOTO GRID INSTANCE EXAMPLE -->
-            <div class="photo-grid">
-                <img class="grid-photo" src="../outing1.jpg" alt="Outing Snapshot 1">
-                <img class="grid-photo" src="../outing2.jpg" alt="Outing Snapshot 2">
-                <img class="grid-photo" src="../outing3.jpg" alt="Outing Snapshot 3">
-                <img class="grid-photo" src="../outing4.jpg" alt="Outing Snapshot 4">
-            </div>
-            <div class="image-caption">Figure 1.1: Documenting structural alignment markers during our seasonal corporate gathering.</div>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Two charts comparing consensus versus contrarian investment returns around the dotcom crash and 2008 financial crisis.</h2>
 
-            <p>Follow up textual information blocks process right down here.</p>
+<div class="chart-wrap">
+  <p class="chart-title">Dotcom era &mdash; NASDAQ vs. S&amp;P 500 Energy</p>
+  <p class="chart-sub">Indexed returns &nbsp;·&nbsp; 1998&ndash;2005 &nbsp;·&nbsp; Base = 100</p>
+  <div class="legend">
+    <span class="leg-item"><span class="leg-line solid"></span>NASDAQ &mdash; consensus</span>
+    <span class="leg-item"><span class="leg-line dashed"></span>S&amp;P Energy &mdash; contrarian</span>
+  </div>
+  <div class="canvas-outer">
+    <canvas id="c1" role="img" aria-label="Line chart: NASDAQ surged to 500 then collapsed to 80 by 2002; S&P Energy rose steadily to 280 by 2005.">NASDAQ peaked near 500 in 2000, crashed to ~80 by 2002. S&P Energy rose steadily to ~280 by 2005.</canvas>
+  </div>
+</div>
+
+<div class="chart-wrap">
+  <p class="chart-title">Pre-GFC era &mdash; US Financials vs. Commodities &amp; Emerging Markets</p>
+  <p class="chart-sub">Indexed returns &nbsp;·&nbsp; 2003&ndash;2010 &nbsp;·&nbsp; Base = 100</p>
+  <div class="legend">
+    <span class="leg-item"><span class="leg-line solid"></span>US Financials &mdash; consensus</span>
+    <span class="leg-item"><span class="leg-line dashed"></span>Commodities / EM &mdash; contrarian</span>
+  </div>
+  <div class="canvas-outer">
+    <canvas id="c2" role="img" aria-label="Line chart: US Financials rose to 240 then collapsed to 70 in 2009; Commodities/EM rose to 340 and remained well above financials.">US Financials rose to ~240 by 2007, collapsed to ~70 in 2009. Commodities/EM rose to ~340 and fell less severely.</canvas>
+  </div>
+</div>
+
+<p class="caption">Illustrative reconstruction based on documented index performance (NASDAQ Composite, S&amp;P 500 Energy, S&amp;P 500 Financials, S&amp;P GSCI Commodities Index). Not investment advice.</p>
             
             <a class="back-link" href="../news.html">&larr; Back to Journal</a>
         </article>
@@ -95,6 +126,100 @@ The lesson across both periods is consistent: the crowd's enthusiasm is precisel
             <p>&copy; 2026 Dioko & Sons. All rights reserved.</p>
         </footer>
     </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const base = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: {
+    backgroundColor: '#fcfcfc',
+    borderColor: '#e5e5e5',
+    borderWidth: 1,
+    titleColor: '#111',
+    bodyColor: '#555',
+    titleFont: { family: "'Playfair Display', Georgia, serif", size: 12 },
+    bodyFont: { family: "-apple-system, sans-serif", size: 11 },
+    padding: 10,
+    callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y }
+  }},
+  scales: {
+    x: {
+      grid: { color: '#eeeeee', lineWidth: 0.5 },
+      border: { color: '#cccccc' },
+      ticks: { font: { family: "-apple-system, sans-serif", size: 10 }, color: '#999', maxRotation: 0 }
+    },
+    y: {
+      grid: { color: '#eeeeee', lineWidth: 0.5 },
+      border: { color: '#cccccc' },
+      min: 60,
+      ticks: { font: { family: "-apple-system, sans-serif", size: 10 }, color: '#999', callback: v => v }
+    }
+  }
+};
+
+new Chart(document.getElementById('c1'), {
+  type: 'line',
+  data: {
+    labels: ['1998','1999','2000','2001','2002','2003','2004','2005'],
+    datasets: [
+      {
+        label: 'NASDAQ (consensus)',
+        data: [100, 185, 340, 500, 220, 80, 95, 110],
+        borderColor: '#222222',
+        borderWidth: 1.5,
+        pointRadius: 2,
+        pointBackgroundColor: '#222',
+        fill: false,
+        tension: 0.35
+      },
+      {
+        label: 'S&P Energy (contrarian)',
+        data: [100, 108, 118, 130, 145, 155, 175, 210],
+        borderColor: '#888888',
+        borderWidth: 1.5,
+        borderDash: [5, 4],
+        pointRadius: 2,
+        pointBackgroundColor: '#888',
+        fill: false,
+        tension: 0.35
+      }
+    ]
+  },
+  options: { ...base }
+});
+
+new Chart(document.getElementById('c2'), {
+  type: 'line',
+  data: {
+    labels: ['2003','2004','2005','2006','2007','2008','2009','2010'],
+    datasets: [
+      {
+        label: 'US Financials (consensus)',
+        data: [100, 125, 150, 185, 220, 240, 100, 70],
+        borderColor: '#222222',
+        borderWidth: 1.5,
+        pointRadius: 2,
+        pointBackgroundColor: '#222',
+        fill: false,
+        tension: 0.35
+      },
+      {
+        label: 'Commodities / EM (contrarian)',
+        data: [100, 130, 160, 200, 255, 310, 340, 180],
+        borderColor: '#888888',
+        borderWidth: 1.5,
+        borderDash: [5, 4],
+        pointRadius: 2,
+        pointBackgroundColor: '#888',
+        fill: false,
+        tension: 0.35
+      }
+    ]
+  },
+  options: { ...base }
+});
+</script>
 
 </body>
 </html>
