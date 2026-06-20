@@ -3,80 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Going Against the Crowd | Dioko &amp; Sons</title>
+    <title>Article Title | Dioko & Sons</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <style>
-        @font-face {
-            font-family: 'Didot';
-            src: url('../fonts/Didot-01.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Didot';
-            src: url('../fonts/Didot-Italic-02.woff2') format('woff2');
-            font-weight: 400;
-            font-style: italic;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Didot';
-            src: url('../fonts/Didot-Bold-03.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 90%; }
         body {
-            font-family: 'Didot', Didot, Georgia, serif;
+            font-family: 'Playfair Display', Didot, Georgia, serif;
             color: #222222;
             background-color: #fcfcfc;
             line-height: 1.8;
             padding: 0 20px;
         }
         .container { max-width: 800px; margin: 0 auto; padding: 60px 0; }
-
+        
         nav { text-align: center; margin-bottom: 60px; font-size: 1.1rem; }
-        nav a { color: #555555; text-decoration: none; margin: 0 25px; }
+        nav a { color: #555555; text-decoration: none; margin: 0 25px;; }
         nav a:hover { color: #111111; text-decoration: underline; }
-
+        
         header { margin-bottom: 40px; }
         .meta-date { font-family: -apple-system, sans-serif; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #888888; font-weight: 600; display: block; margin-bottom: 15px; }
         h1 { font-size: 2.8rem; font-weight: 500; color: #111111; line-height: 1.2; margin-bottom: 15px; }
         .subtitle { font-size: 1.25rem; font-style: italic; color: #666666; line-height: 1.5; margin-bottom: 30px; }
-
+        
         p { font-size: 1.15rem; margin-bottom: 25px; color: #333333; }
-
+        
+        /* 4-PHOTO BALANCED OUTING GRID BUILDER */
         .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 35px 0 12px 0; }
         .grid-photo { width: 100%; height: auto; display: block; border-radius: 2px; }
-
+        
+        /* Single Inline Image Rule */
         .article-image { max-width: 100%; height: auto; display: block; margin: 40px auto 12px auto; border-radius: 2px; }
         .image-caption { font-family: -apple-system, sans-serif; font-size: 0.85rem; color: #777777; text-align: center; font-style: italic; margin-bottom: 40px; }
-
+        
         .back-link { display: inline-block; margin-top: 40px; font-size: 1rem; color: #111111; text-decoration: none; font-weight: 600; }
         .back-link:hover { text-decoration: underline; }
-
+        
         footer { text-align: center; color: #999999; margin-top: 100px; }
         footer p { font-size: 0.95rem; margin-bottom: 5px; }
 
-        /* Chart styles */
-        .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 40px 0; }
-        .chart-wrap { border: 1px solid #e5e5e5; background: #fcfcfc; padding: 24px 24px 18px; }
-        .chart-title { font-family: 'Didot', Didot, Georgia, serif; font-size: 0.95rem; font-weight: 500; color: #111; letter-spacing: -0.3px; margin-bottom: 4px; }
-        .chart-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.72rem; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
-        .legend { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-        .leg-item { display: flex; align-items: center; gap: 7px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.72rem; color: #555; text-transform: uppercase; letter-spacing: 0.6px; }
-        .leg-line { width: 22px; height: 1.5px; display: inline-block; flex-shrink: 0; }
-        .leg-line.solid { background: #222; }
-        .leg-line.dashed { background: repeating-linear-gradient(to right, #888 0, #888 4px, transparent 4px, transparent 8px); }
-        .canvas-outer { position: relative; width: 100%; height: 190px; }
-        .chart-caption { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.73rem; color: #aaa; margin-top: 0; margin-bottom: 40px; border-top: 1px solid #e5e5e5; padding-top: 12px; line-height: 1.5; }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+  .pf { font-family: 'Playfair Display', Didot, Georgia, serif; }
+  .chart-wrap { border: 1px solid #e5e5e5; background: #fcfcfc; padding: 32px 32px 24px; margin-bottom: 40px; }
+  .chart-title { font-family: 'Playfair Display', Didot, Georgia, serif; font-size: 1.05rem; font-weight: 500; color: #111; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .chart-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.78rem; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+  .legend { display: flex; gap: 24px; margin-bottom: 18px; }
+  .leg-item { display: flex; align-items: center; gap: 7px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.78rem; color: #555; text-transform: uppercase; letter-spacing: 0.7px; }
+  .leg-line { width: 24px; height: 1.5px; display: inline-block; }
+  .leg-line.solid { background: #222; }
+  .leg-line.dashed { background: repeating-linear-gradient(to right, #888 0, #888 4px, transparent 4px, transparent 8px); }
+  .canvas-outer { position: relative; width: 100%; height: 200px; }
+  .caption { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.73rem; color: #aaa; margin-top: 28px; border-top: 1px solid #e5e5e5; padding-top: 14px; line-height: 1.5; }
 
-        /* References */
-        .references { margin-top: 50px; border-top: 1px solid #e5e5e5; padding-top: 30px; }
-        .references p { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 0.9rem; color: #555; margin-bottom: 14px; line-height: 1.6; }
-        .references .ref-heading { font-family: 'Didot', Didot, Georgia, serif; font-size: 1.1rem; font-weight: 500; color: #111; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -92,135 +72,165 @@
             <header>
                 <span class="meta-date">June 18, 2026</span>
                 <h1>Going against the crowd</h1>
-                <p class="subtitle">The most enduring principle in investment history may also be the most psychologically uncomfortable: the greatest returns flow not toward the assets everyone is buying, but toward those everyone is ignoring.</p>
+                <div class="subtitle">The most enduring principle in investment history may also be the most psychologically uncomfortable: the greatest returns flow not toward the assets everyone is buying, but toward those everyone is ignoring.  </div>
             </header>
 
-            <p>The most enduring principle in investment history may also be the most psychologically uncomfortable: the greatest returns flow not toward the assets everyone is buying, but toward those everyone is ignoring. Contrarian investing — the discipline of deploying capital where consensus attention is absent — is not mere perversity. It is a rational response to how markets actually misprice assets.</p>
+            <p>The most enduring principle in investment history may also be the most psychologically uncomfortable: the greatest returns flow not toward the assets everyone is buying, but toward those everyone is ignoring. Contrarian investing — the discipline of deploying capital where consensus attention is absent — is not mere perversity. It is a rational response to how markets actually misprice assets.
 
-            <p>Markets are not merely mechanisms for price discovery; they are machines for aggregating human emotion. When a sector captivates the imagination of investors, capital floods in, valuations inflate, and the margin of safety evaporates. The late 1990s dotcom boom is the canonical case. Between 1995 and 2000, the NASDAQ Composite rose roughly 400%. Investors poured money into any company bearing a ".com" suffix, regardless of earnings, cash flow, or business model. Meanwhile, deeply unglamorous sectors — energy, financials, and old-economy industrials — were systematically shunned. A contrarian who loaded up on ExxonMobil, Berkshire Hathaway, or Procter &amp; Gamble in 1999, while the crowd chased Pets.com and Webvan, would have dramatically outperformed over the following decade.</p>
+<p>Markets are not merely mechanisms for price discovery; they are machines for aggregating human emotion. When a sector captivates the imagination of investors, capital floods in, valuations inflate, and the margin of safety evaporates. The late 1990s dotcom boom is the canonical case. Between 1995 and 2000, the NASDAQ Composite rose roughly 400%. Investors poured money into any company bearing a ".com" suffix, regardless of earnings, cash flow, or business model. Meanwhile, deeply unglamorous sectors — energy, financials, and old-economy industrials — were systematically shunned. A contrarian who loaded up on ExxonMobil, Berkshire Hathaway, or Procter & Gamble in 1999, while the crowd chased Pets.com and Webvan, would have dramatically outperformed over the following decade.</p>
 
-            <p>The same dynamic played out before the global financial crisis of 2008. As housing-related assets and financial stocks consumed investor imagination — banks, mortgage originators, and structured credit vehicles generated enormous enthusiasm — the overlooked opportunities sat in plain sight. Commodities and emerging markets were deeply unfashionable in the early 2000s yet subsequently delivered extraordinary returns. Jim Rogers, Marc Faber, and other contrarians who identified agricultural commodities and frontier markets as undervalued well before mainstream recognition captured multi-year bull markets that consensus investors missed entirely.</p>
+<p>The same dynamic played out before the global financial crisis of 2008. As housing-related assets and financial stocks consumed investor imagination — banks, mortgage originators, and structured credit vehicles generated enormous enthusiasm — the overlooked opportunities sat in plain sight. Commodities and emerging markets were deeply unfashionable in the early 2000s yet subsequently delivered extraordinary returns. Jim Rogers, Marc Faber, and other contrarians who identified agricultural commodities and frontier markets as undervalued well before mainstream recognition captured multi-year bull markets that consensus investors missed entirely.</p>
 
-            <p>The academic evidence supports this thesis. The value premium — documented extensively by Fama and French — demonstrates that cheap, unloved stocks have historically outperformed expensive, beloved ones over long horizons. Behavioral finance research by Kahneman, Thaler, and others shows that investors systematically extrapolate recent trends, overpaying for recent winners and abandoning recent losers. This creates the structural mispricings that contrarian investors exploit. Research by Lakonishok, Shleifer, and Vishny found that value stocks (the overlooked) outperformed glamour stocks (the beloved) by approximately 10–11 percentage points annually over five-year holding periods in U.S. markets.</p>
+<p>The academic evidence supports this thesis. The value premium — documented extensively by Fama and French — demonstrates that cheap, unloved stocks have historically outperformed expensive, beloved ones over long horizons. Behavioral finance research by Kahneman, Thaler, and others shows that investors systematically extrapolate recent trends, overpaying for recent winners and abandoning recent losers. This creates the structural mispricings that contrarian investors exploit. Research by Lakonishok, Shleifer, and Vishny found that value stocks (the overlooked) outperformed glamour stocks (the beloved) by approximately 10–11 percentage points annually over five-year holding periods in U.S. markets.</p>
 
-            <!-- Charts -->
-            <div class="charts-row">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Two charts comparing consensus versus contrarian investment returns around the dotcom crash and 2008 financial crisis.</h2>
 
-                <div class="chart-wrap">
-                    <p class="chart-title">Dotcom era &mdash; NASDAQ vs. S&amp;P 500 Energy</p>
-                    <p class="chart-sub">Indexed &nbsp;&middot;&nbsp; 1998&ndash;2005 &nbsp;&middot;&nbsp; Base = 100</p>
-                    <div class="legend">
-                        <span class="leg-item"><span class="leg-line solid"></span>NASDAQ &mdash; consensus</span>
-                        <span class="leg-item"><span class="leg-line dashed"></span>S&amp;P Energy &mdash; contrarian</span>
-                    </div>
-                    <div class="canvas-outer">
-                        <canvas id="c1" role="img" aria-label="NASDAQ surged to 500 then collapsed to 80 by 2002; S&P Energy rose steadily to 210 by 2005.">NASDAQ peaked near 500 in 2000, crashed to ~80 by 2002. S&amp;P Energy rose steadily to ~210 by 2005.</canvas>
-                    </div>
-                </div>
+<div class="chart-wrap">
+  <p class="chart-title">Dotcom era &mdash; NASDAQ vs. S&amp;P 500 Energy</p>
+  <p class="chart-sub">Indexed returns &nbsp;·&nbsp; 1998&ndash;2005 &nbsp;·&nbsp; Base = 100</p>
+  <div class="legend">
+    <span class="leg-item"><span class="leg-line solid"></span>NASDAQ &mdash; consensus</span>
+    <span class="leg-item"><span class="leg-line dashed"></span>S&amp;P Energy &mdash; contrarian</span>
+  </div>
+  <div class="canvas-outer">
+    <canvas id="c1" role="img" aria-label="Line chart: NASDAQ surged to 500 then collapsed to 80 by 2002; S&P Energy rose steadily to 280 by 2005.">NASDAQ peaked near 500 in 2000, crashed to ~80 by 2002. S&P Energy rose steadily to ~280 by 2005.</canvas>
+  </div>
+</div>
 
-                <div class="chart-wrap">
-                    <p class="chart-title">Pre-GFC era &mdash; US Financials vs. Commodities &amp; EM</p>
-                    <p class="chart-sub">Indexed &nbsp;&middot;&nbsp; 2003&ndash;2010 &nbsp;&middot;&nbsp; Base = 100</p>
-                    <div class="legend">
-                        <span class="leg-item"><span class="leg-line solid"></span>US Financials &mdash; consensus</span>
-                        <span class="leg-item"><span class="leg-line dashed"></span>Commodities / EM &mdash; contrarian</span>
-                    </div>
-                    <div class="canvas-outer">
-                        <canvas id="c2" role="img" aria-label="US Financials rose to 240 then collapsed to 70 in 2009; Commodities/EM rose to 340 and remained well above financials.">US Financials rose to ~240 by 2007, collapsed to ~70 in 2009. Commodities/EM rose to ~340 and fell less severely.</canvas>
-                    </div>
-                </div>
+<div class="chart-wrap">
+  <p class="chart-title">Pre-GFC era &mdash; US Financials vs. Commodities &amp; Emerging Markets</p>
+  <p class="chart-sub">Indexed returns &nbsp;·&nbsp; 2003&ndash;2010 &nbsp;·&nbsp; Base = 100</p>
+  <div class="legend">
+    <span class="leg-item"><span class="leg-line solid"></span>US Financials &mdash; consensus</span>
+    <span class="leg-item"><span class="leg-line dashed"></span>Commodities / EM &mdash; contrarian</span>
+  </div>
+  <div class="canvas-outer">
+    <canvas id="c2" role="img" aria-label="Line chart: US Financials rose to 240 then collapsed to 70 in 2009; Commodities/EM rose to 340 and remained well above financials.">US Financials rose to ~240 by 2007, collapsed to ~70 in 2009. Commodities/EM rose to ~340 and fell less severely.</canvas>
+  </div>
+</div>
 
-            </div>
-            <p class="chart-caption">Illustrative reconstruction based on documented index performance (NASDAQ Composite, S&amp;P 500 Energy, S&amp;P 500 Financials, S&amp;P GSCI Commodities Index). Not investment advice.</p>
+<p class="caption">Illustrative reconstruction based on documented index performance (NASDAQ Composite, S&amp;P 500 Energy, S&amp;P 500 Financials, S&amp;P GSCI Commodities Index). Not investment advice.</p>
 
-            <p>The contrarian thesis does not require predicting the future. It requires only recognizing when the price of an asset reflects excessive pessimism — when the margin of safety is generous precisely because the crowd has fled. Warren Buffett's maxim — "be fearful when others are greedy, and greedy when others are fearful" — is not a platitude. It is a compression of the entire contrarian argument into a single sentence. His purchase of American Express during the 1963 salad oil scandal, or his buying of Washington Post shares in 1973 when the media sector was reviled, generated some of the most celebrated returns in investment history.</p>
+<p>The contrarian thesis does not require predicting the future. It requires only recognizing when the price of an asset reflects excessive pessimism — when the margin of safety is generous precisely because the crowd has fled. Warren Buffett's maxim — "be fearful when others are greedy, and greedy when others are fearful" — is not a platitude. It is a compression of the entire contrarian argument into a single sentence. His purchase of American Express during the 1963 salad oil scandal, or his buying of Washington Post shares in 1973 when the media sector was reviled, generated some of the most celebrated returns in investment history.</p>
 
-            <p>The difficulty, of course, is psychological. Being contrarian means being wrong in the company of the crowd for uncomfortably long periods before being right alone. But that discomfort is precisely the source of the return. If superior investment opportunities were obvious and comfortable, they would already be priced away. The alpha available to the contrarian investor is, at its core, a premium for enduring unpopularity.</p>
+<p>The difficulty, of course, is psychological. Being contrarian means being wrong in the company of the crowd for uncomfortably long periods before being right alone. But that discomfort is precisely the source of the return. If superior investment opportunities were obvious and comfortable, they would already be priced away. The alpha available to the contrarian investor is, at its core, a premium for enduring unpopularity.The charts illustrate the thesis starkly across both historical episodes. In the dotcom era, the consensus bet on NASDAQ technology names produced a spectacular rise and catastrophic collapse, while S&P 500 Energy — completely ignored during the mania — compounded steadily throughout. The pre-GFC pattern is nearly identical: US financials peaked and then cratered, while commodities and emerging markets (the contrarian trade of the early 2000s) delivered dramatically superior cumulative returns even accounting for their own 2008 drawdown.</p>
 
-            <p>The charts illustrate the thesis starkly across both historical episodes. In the dotcom era, the consensus bet on NASDAQ technology names produced a spectacular rise and catastrophic collapse, while S&amp;P 500 Energy — completely ignored during the mania — compounded steadily throughout. The pre-GFC pattern is nearly identical: US financials peaked and then cratered, while commodities and emerging markets (the contrarian trade of the early 2000s) delivered dramatically superior cumulative returns even accounting for their own 2008 drawdown.</p>
+<p>The lesson across both periods is consistent: the crowd's enthusiasm is precisely what destroys the return. By the time a sector is widely loved, its upside is already priced in — and its downside is not.</p></p>
+            
+<p>References</p>
 
-            <p>The lesson across both periods is consistent: the crowd's enthusiasm is precisely what destroys the return. By the time a sector is widely loved, its upside is already priced in — and its downside is not.</p>
+<p>Fama, E. F., & French, K. R. (1992). The cross-section of expected stock returns. The Journal of Finance, 47(2), 427–465. Tuck School of Business</p>
 
-            <!-- References -->
-            <div class="references">
-                <p class="ref-heading">References</p>
-                <p>Fama, E. F., &amp; French, K. R. (1992). The cross-section of expected stock returns. <em>The Journal of Finance</em>, 47(2), 427–465.</p>
-                <p>Fama, E. F., &amp; French, K. R. (1993). Common risk factors in the returns on stocks and bonds. <em>Journal of Financial Economics</em>, 33, 3–56.</p>
-                <p>Kahneman, D. (2011). <em>Thinking, fast and slow</em>. Farrar, Straus and Giroux.</p>
-                <p>Lakonishok, J., Shleifer, A., &amp; Vishny, R. W. (1994). Contrarian investment, extrapolation, and risk. <em>The Journal of Finance</em>, 49(5), 1541–1578.</p>
-                <p>Thaler, R. H. (1992). <em>The winner's curse: Paradoxes and anomalies of economic life</em>. Princeton University Press.</p>
-                <p>Thaler, R. H. (2015). <em>Misbehaving: The making of behavioral economics</em>. W. W. Norton &amp; Company.</p>
-                <p>Buffett, W. E. (1977–present). <em>Berkshire Hathaway shareholder letters</em>. Retrieved from https://www.berkshirehathaway.com/letters/letters.html</p>
-                <p>Cunningham, L. A. (Ed.). (2019). <em>The essays of Warren Buffett: Lessons for corporate America</em> (5th ed.). The Cunningham Group.</p>
-            </div>
+<p>Fama, E. F., & French, K. R. (1993). Common risk factors in the returns on stocks and bonds. Journal of Financial Economics, 33, 3–56. Tuck School of Business</p>
 
+<p>Lakonishok, J., Shleifer, A., & Vishny, R. W. (1994). Contrarian investment, extrapolation, and risk. The Journal of Finance, 49(5), 1541–1578. Harvard</p>
+
+<p>Thaler, R. H. (1992). The winner's curse: Paradoxes and anomalies of economic life. Princeton University Press. Econlib</p>
+
+<p>Thaler, R. H. (2015). Misbehaving: The making of behavioral economics. W. W. Norton & Company. Wikipedia</p></p>
+            
             <a class="back-link" href="../news.html">&larr; Back to Journal</a>
         </article>
 
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
-            <p>&copy; 2026 Dioko &amp; Sons. All rights reserved.</p>
+            <p>&copy; 2026 Dioko & Sons. All rights reserved.</p>
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-    <script>
-        const base = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#fcfcfc',
-                    borderColor: '#e5e5e5',
-                    borderWidth: 1,
-                    titleColor: '#111',
-                    bodyColor: '#555',
-                    titleFont: { family: "'Didot', Georgia, serif", size: 11 },
-                    bodyFont: { family: "-apple-system, sans-serif", size: 11 },
-                    padding: 10,
-                    callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y }
-                }
-            },
-            scales: {
-                x: {
-                    grid: { color: '#eeeeee', lineWidth: 0.5 },
-                    border: { color: '#cccccc' },
-                    ticks: { font: { family: "-apple-system, sans-serif", size: 9 }, color: '#999', maxRotation: 0 }
-                },
-                y: {
-                    grid: { color: '#eeeeee', lineWidth: 0.5 },
-                    border: { color: '#cccccc' },
-                    min: 60,
-                    ticks: { font: { family: "-apple-system, sans-serif", size: 9 }, color: '#999' }
-                }
-            }
-        };
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const base = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: {
+    backgroundColor: '#fcfcfc',
+    borderColor: '#e5e5e5',
+    borderWidth: 1,
+    titleColor: '#111',
+    bodyColor: '#555',
+    titleFont: { family: "'Playfair Display', Georgia, serif", size: 12 },
+    bodyFont: { family: "-apple-system, sans-serif", size: 11 },
+    padding: 10,
+    callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y }
+  }},
+  scales: {
+    x: {
+      grid: { color: '#eeeeee', lineWidth: 0.5 },
+      border: { color: '#cccccc' },
+      ticks: { font: { family: "-apple-system, sans-serif", size: 10 }, color: '#999', maxRotation: 0 }
+    },
+    y: {
+      grid: { color: '#eeeeee', lineWidth: 0.5 },
+      border: { color: '#cccccc' },
+      min: 60,
+      ticks: { font: { family: "-apple-system, sans-serif", size: 10 }, color: '#999', callback: v => v }
+    }
+  }
+};
 
-        new Chart(document.getElementById('c1'), {
-            type: 'line',
-            data: {
-                labels: ['1998','1999','2000','2001','2002','2003','2004','2005'],
-                datasets: [
-                    { label: 'NASDAQ (consensus)', data: [100,185,340,500,220,80,95,110], borderColor: '#222', borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#222', fill: false, tension: 0.35 },
-                    { label: 'S&P Energy (contrarian)', data: [100,108,118,130,145,155,175,210], borderColor: '#888', borderWidth: 1.5, borderDash: [5,4], pointRadius: 2, pointBackgroundColor: '#888', fill: false, tension: 0.35 }
-                ]
-            },
-            options: { ...base }
-        });
+new Chart(document.getElementById('c1'), {
+  type: 'line',
+  data: {
+    labels: ['1998','1999','2000','2001','2002','2003','2004','2005'],
+    datasets: [
+      {
+        label: 'NASDAQ (consensus)',
+        data: [100, 185, 340, 500, 220, 80, 95, 110],
+        borderColor: '#222222',
+        borderWidth: 1.5,
+        pointRadius: 2,
+        pointBackgroundColor: '#222',
+        fill: false,
+        tension: 0.35
+      },
+      {
+        label: 'S&P Energy (contrarian)',
+        data: [100, 108, 118, 130, 145, 155, 175, 210],
+        borderColor: '#888888',
+        borderWidth: 1.5,
+        borderDash: [5, 4],
+        pointRadius: 2,
+        pointBackgroundColor: '#888',
+        fill: false,
+        tension: 0.35
+      }
+    ]
+  },
+  options: { ...base }
+});
 
-        new Chart(document.getElementById('c2'), {
-            type: 'line',
-            data: {
-                labels: ['2003','2004','2005','2006','2007','2008','2009','2010'],
-                datasets: [
-                    { label: 'US Financials (consensus)', data: [100,125,150,185,220,240,100,70], borderColor: '#222', borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#222', fill: false, tension: 0.35 },
-                    { label: 'Commodities / EM (contrarian)', data: [100,130,160,200,255,310,340,180], borderColor: '#888', borderWidth: 1.5, borderDash: [5,4], pointRadius: 2, pointBackgroundColor: '#888', fill: false, tension: 0.35 }
-                ]
-            },
-            options: { ...base }
-        });
-    </script>
+new Chart(document.getElementById('c2'), {
+  type: 'line',
+  data: {
+    labels: ['2003','2004','2005','2006','2007','2008','2009','2010'],
+    datasets: [
+      {
+        label: 'US Financials (consensus)',
+        data: [100, 125, 150, 185, 220, 240, 100, 70],
+        borderColor: '#222222',
+        borderWidth: 1.5,
+        pointRadius: 2,
+        pointBackgroundColor: '#222',
+        fill: false,
+        tension: 0.35
+      },
+      {
+        label: 'Commodities / EM (contrarian)',
+        data: [100, 130, 160, 200, 255, 310, 340, 180],
+        borderColor: '#888888',
+        borderWidth: 1.5,
+        borderDash: [5, 4],
+        pointRadius: 2,
+        pointBackgroundColor: '#888',
+        fill: false,
+        tension: 0.35
+      }
+    ]
+  },
+  options: { ...base }
+});
+</script>
 
 </body>
 </html>
