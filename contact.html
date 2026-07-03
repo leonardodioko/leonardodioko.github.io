@@ -55,20 +55,7 @@
         }
         button:hover { background-color: #333333; }
 
-        #success-message {
-            display: none;
-            background: #ffffff;
-            padding: 40px;
-            border: 1px solid #eeeeee;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            margin-top: 30px;
-            text-align: center;
-        }
         footer { margin-top: 120px; }
-
-        /* Keeps the background frame completely hidden from cross-browser view layouts */
-        #hidden_iframe { display: none !important; visibility: hidden !important; width: 0; height: 0; border: 0; }
     </style>
 </head>
 <body>
@@ -81,75 +68,34 @@
         <header>
             <h1></h1>
         </header>
-        
-        <div id="form-container">
-            <div id="form-intro">
-                <p></p>
+
+        <!-- STANDARD DIRECT SUBMISSION METHOD TO GUARANTEE CROSS-BROWSER SUCCESS -->
+        <form id="contact-form" action="https://formbold.com" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
             </div>
 
-            <!-- 1. BACKGROUND IFRAME TARGET WITH SECURE PLACEHOLDER SOURCE FOR FIREFOX -->
-            <iframe name="hidden_iframe" id="hidden_iframe" src="about:blank"></iframe>
+            <!-- NATIVE FORMBOLD HONEYPOT: Keeps spammers out without breaking your site -->
+            <div style="display: none; visibility: hidden;" aria-hidden="true">
+                <input type="text" name="_honeypot" style="display: none;">
+            </div>
 
-            <!-- 2. ROUTE FORM DIRECTLY THROUGH THE IFRAME WINDOW -->
-            <form id="contact-form" action="https://formbold.com" method="POST" target="hidden_iframe">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-
-                <!-- BACKEND FORMBOLD HONEYPOT: Blocks scraping API scripts -->
-                <div style="display: none; visibility: hidden;" aria-hidden="true">
-                    <input type="text" name="_honeypot" style="display: none;">
-                </div>
-
-                <button type="submit">Submit Inquiry</button>
-            </form>
-        </div>
-
-        <div id="success-message">
-            <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
-        </div>
+            <button type="submit">Submit Inquiry</button>
+        </form>
+        
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
             <p>&copy; 2026 Dioko &amp; Sons. All rights reserved.</p>
         </footer>
     </div>
-
-<script>
-    const startTime = Date.now();
-    let formSubmittedByHuman = false;
-
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        const timeTakenInSeconds = (Date.now() - startTime) / 1000;
-        
-        // ANTI-SPAM TIME LOCK: Drops bot requests immediately on frontend
-        if (timeTakenInSeconds < 3.0) { 
-            e.preventDefault(); // Halts communication entirely
-            document.getElementById('form-container').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            return;
-        }
-        
-        // Signals our iframe handler that a real visitor successfully clicked
-        formSubmittedByHuman = true;
-    });
-
-    // Native browser window tracking listener 
-    document.getElementById('hidden_iframe').addEventListener('load', function() {
-        // Triggers your custom thank-you layout smooth swap the split second the server approves the data
-        if (formSubmittedByHuman) {
-            document.getElementById('form-container').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-        }
-    });
-</script>
 </body>
 </html>
