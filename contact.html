@@ -82,7 +82,6 @@
             <p></p>
         </div>
         
-        <!-- TARGET ENDPOINT CORRECTLY APPLIED WITH KEY TOKEN -->
         <form id="contact-form" action="https://formbold.com" method="POST">
             <div class="form-group">
                 <label for="name">Your Name</label>
@@ -116,7 +115,6 @@
     </div>
 
 <script>
-    // Track precisely when the page loaded to catch speedy bots
     const startTime = Date.now();
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
@@ -124,9 +122,8 @@
         
         const timeTakenInSeconds = (Date.now() - startTime) / 1000;
         
-        // Anti-Spam Time Lock: Intercept scripts submitting in milliseconds
+        // Anti-Spam Time Lock: Intercepts bots submitting in milliseconds
         if (timeTakenInSeconds < 3.0) { 
-            // Trick the bot into thinking it won
             document.getElementById('form-intro').style.display = 'none';
             this.style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
@@ -134,27 +131,29 @@
         }
 
         var form = this;
-        
-        // Correct conversion step to native JavaScript Object key pairs
-        var formDataObject = Object.fromEntries(new FormData(form));
+        var formData = new FormData(form);
 
-        // FormBold explicitly reads custom fetch posts as pure Application JSON
+        // NATIVE FIX: Convert form properties to a clean JSON object structure
+        var formDataObject = Object.fromEntries(formData);
+
+        // AJAX POST FORMBOLD RULES
         fetch(form.action, { 
             method: 'POST', 
             headers: { 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json' 
             }, 
-            body: JSON.stringify(formDataObject) // Pass raw JSON payload string
+            body: JSON.stringify(formDataObject) 
         })
         .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Server payload rejection');
+            // FormBold returns JSON data on valid API submissions
+            if (response.ok) {
+                document.getElementById('form-intro').style.display = 'none';
+                form.style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            } else {
+                alert('Submission failed. Please verify form configuration.');
             }
-            // Trigger your custom styled thank you screen on successful transmission
-            document.getElementById('form-intro').style.display = 'none';
-            form.style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
         })
         .catch(function() { 
             alert('Submission failed. Please check your network or try again.'); 
@@ -163,6 +162,4 @@
 </script>
 
 </body>
-</html> 
-  
- 
+</html>
