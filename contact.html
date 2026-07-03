@@ -55,7 +55,8 @@
         }
         button:hover { background-color: #333333; }
 
-        #success-message {
+        /* Custom Success Page Container */
+        #success-container {
             display: none;
             background: #ffffff;
             padding: 40px;
@@ -66,9 +67,6 @@
             text-align: center;
         }
         footer { margin-top: 120px; }
-        
-        /* Keep the target frame hidden from view layout rendering */
-        #hidden_iframe { display: none !important; visibility: hidden !important; width: 0; height: 0; border: 0; }
     </style>
 </head>
 <body>
@@ -81,37 +79,39 @@
         <header>
             <h1></h1>
         </header>
-        <div id="form-intro">
-            <p></p>
+        
+        <!-- WRAPPER TARGETED FOR DYNAMIC VISIBILITY SWITCH -->
+        <div id="form-wrapper">
+            <div id="form-intro">
+                <p></p>
+            </div>
+
+            <!-- UNBREAKABLE STANDARD NATIVE FORM OVERRIDE -->
+            <form id="contact-form" action="https://formbold.com" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <!-- BACKEND BOT FILTERING: FormBold reads this natively to kill scrapers -->
+                <div style="display: none; visibility: hidden;" aria-hidden="true">
+                    <input type="text" name="_honeypot" style="display: none;">
+                </div>
+
+                <button type="submit" id="submit-btn">Submit Inquiry</button>
+            </form>
         </div>
         
-        <!-- INVISIBLE TARGET LINKED HERE -->
-        <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
-
-        <!-- TARGET LINKED TO IFRAME TO PREVENT REDIRECTS -->
-        <form id="contact-form" action="https://formbold.com" method="POST" target="hidden_iframe">
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
-
-            <!-- BACKEND HONEYPOT FOR FORMBOLD -->
-            <div style="display: none; visibility: hidden;" aria-hidden="true">
-                <input type="text" name="_honeypot" style="display: none;">
-            </div>
-
-            <button type="submit">Submit Inquiry</button>
-        </form>
-        
-        <div id="success-message">
+        <!-- TARGET SHOW CONTAINER FOR CUSTOM LANDING -->
+        <div id="success-container">
             <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
         </div>
         
@@ -122,33 +122,25 @@
     </div>
 
 <script>
-    // Anti-Spam Time Lock System
-    const startTime = Date.now();
-    let isHumanSubmission = false;
+    // Pure Client-Side Anti-Spam Timer
+    const pageLoadTime = Date.now();
+
+    // Check if the user is loading a standard fallback bookmark link redirect
+    if (window.location.hash === "#thank-you") {
+        document.getElementById('form-wrapper').style.display = 'none';
+        document.getElementById('success-container').style.display = 'block';
+    }
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
-        const timeTakenInSeconds = (Date.now() - startTime) / 1000;
+        const timeElapsed = (Date.now() - pageLoadTime) / 1000;
         
-        // If it's a fast automated bot script, trick it but block the frame from submitting
-        if (timeTakenInSeconds < 3.0) { 
-            e.preventDefault(); // Stop actual post submission
-            document.getElementById('form-intro').style.display = 'none';
-            this.style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            return;
+        // Anti-Bot Time Lock: If a machine fills fields instantly, fake success and block
+        if (timeElapsed < 3.0) { 
+            e.preventDefault(); 
+            document.getElementById('form-wrapper').style.display = 'none';
+            document.getElementById('success-container').style.display = 'block';
         }
-        
-        // Set flag so our iframe hook knows a real person submitted successfully
-        isHumanSubmission = true;
-    });
-
-    // Handle frame state transformations natively 
-    document.getElementById('hidden_iframe').addEventListener('load', function() {
-        if (isHumanSubmission) {
-            document.getElementById('form-intro').style.display = 'none';
-            document.getElementById('contact-form').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-        }
+        // If a real human submits normally, let it execute native HTML redirection to FormBold
     });
 </script>
 
