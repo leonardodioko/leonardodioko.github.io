@@ -55,16 +55,6 @@
         }
         button:hover { background-color: #333333; }
 
-        #success-message {
-            display: none;
-            background: #ffffff;
-            padding: 40px;
-            border: 1px solid #eeeeee;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-            margin-top: 30px;
-            text-align: center;
-        }
         footer { margin-top: 120px; }
     </style>
 </head>
@@ -78,69 +68,34 @@
         <header>
             <h1></h1>
         </header>
-        
-        <div id="form-container">
-            <div id="form-intro">
-                <p></p>
+
+        <!-- PURE STANDARD HTML FORM WITH ZERO JAVASCRIPT CODES -->
+        <form id="contact-form" action="https://formbold.com" method="POST">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
             </div>
-            <!-- DIRECT NATIVE SUBMISSION - PREVENTS ALL 405 METHOD REJECTIONS -->
-            <form id="contact-form" action="https://formbold.com" method="POST">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
 
-                <!-- BACKEND HONEYPOT FOR FORMBOLD: Automatically catches direct scrapers -->
-                <div style="display: none; visibility: hidden;" aria-hidden="true">
-                    <input type="text" name="_honeypot" style="display: none;">
-                </div>
+            <!-- BACKEND HONEYPOT: This is the ONLY anti-spam method FormBold's free plan allows -->
+            <div style="display: none; visibility: hidden;" aria-hidden="true">
+                <input type="text" name="_honeypot" style="display: none;">
+            </div>
 
-                <button type="submit">Submit Inquiry</button>
-            </form>
-        </div>
-
-        <div id="success-message">
-            <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
-        </div>
+            <button type="submit">Submit Inquiry</button>
+        </form>
         
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
             <p>&copy; 2026 Dioko &amp; Sons. All rights reserved.</p>
         </footer>
     </div>
-
-<script>
-    // Anti-Spam Time Lock System
-    const startTime = Date.now();
-
-    // DYNAMIC RETENTION LAYER: Checks if user already completed the action 
-    if (sessionStorage.getItem("formSubmitted") === "true") {
-        document.getElementById('form-container').style.display = 'none';
-        document.getElementById('success-message').style.display = 'block';
-    }
-
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        const timeTakenInSeconds = (Date.now() - startTime) / 1000;
-        
-        // ANTI-SPAM TIME LOCK: Intercept automated bot scripts submitting in under 3s
-        if (timeTakenInSeconds < 3.0) { 
-            e.preventDefault(); // Kills server access to FormBold
-            document.getElementById('form-container').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            return;
-        }
-
-        // Real human verified: Flag session so the custom layout reveals upon loading page
-        sessionStorage.setItem("formSubmitted", "true");
-    });
-</script>
 </body>
 </html>
