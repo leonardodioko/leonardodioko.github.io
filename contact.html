@@ -132,20 +132,17 @@
 
         var form = this;
         
-        // FIX: Convert data to regular URL encoded form parameters matching standard HTML forms
-        var formPayload = new URLSearchParams(new FormData(form));
+        // Extract native form properties
+        var formData = new FormData(form);
 
+        // FIX: Remove manual headers so the browser natively configures the content signature
         fetch(form.action, { 
             method: 'POST', 
-            headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept': 'application/json' 
-            }, 
-            body: formPayload
+            body: formData
         })
         .then(function(response) {
             if (!response.ok) {
-                throw new Error('FormBold transmission rejection');
+                throw new Error('FormBold rejection');
             }
             document.getElementById('form-intro').style.display = 'none';
             form.style.display = 'none';
@@ -156,6 +153,7 @@
         });
     });
 </script>
+
 
 </body>
 </html>
