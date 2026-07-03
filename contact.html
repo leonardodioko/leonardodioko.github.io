@@ -95,10 +95,9 @@
                 <textarea id="message" name="message" rows="5" required></textarea>
             </div>
 
-            <!-- SPAM PROTECTION: Honeypot field completely hidden from real visitors -->
+            <!-- CORRECTED HONEYPOT FOR FORMBOLD -->
             <div style="display: none; visibility: hidden;" aria-hidden="true">
-                <label for="website_honeypot">Leave this blank</label>
-                <input type="text" id="website_honeypot" name="website_honeypot" autocomplete="off">
+                <input type="text" name="_honeypot" style="display: none;">
             </div>
 
             <button type="submit">Submit Inquiry</button>
@@ -107,7 +106,7 @@
             <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
         </div>
         <footer>
-            <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
+            <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.R</p>
             <p>&copy; 2026 Dioko &amp; Sons. All rights reserved.</p>
         </footer>
     </div>
@@ -115,16 +114,6 @@
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Check if the honeypot field has been filled by a bot
-            var honeypotValue = document.getElementById('website_honeypot').value;
-            if (honeypotValue !== "") {
-                // Fake a successful submission so the bot thinks it succeeded, but block the actual request
-                document.getElementById('form-intro').style.display = 'none';
-                this.style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-                return; 
-            }
-
             var form = this;
             var formData = new FormData(form);
             fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } })
