@@ -55,8 +55,7 @@
         }
         button:hover { background-color: #333333; }
 
-        /* Custom Dynamic Confirmation Card */
-        #success-container {
+        #success-message {
             display: none;
             background: #ffffff;
             padding: 40px;
@@ -80,13 +79,11 @@
             <h1></h1>
         </header>
         
-        <!-- TARGETED CONTAINER LINK FOR SELECTIVE DISPLAY SWITCH -->
-        <div id="form-wrapper">
+        <div id="form-container">
             <div id="form-intro">
                 <p></p>
             </div>
-
-            <!-- ORGANIC HTML METHOD TO GUARANTEE FORM PROCESSING -->
+            <!-- STANDARD POST SUBMISSION METHOD TO ELIMINATE 405 CORS ERRORS -->
             <form id="contact-form" action="https://formbold.com" method="POST">
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -101,7 +98,7 @@
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
 
-                <!-- ANTI-SPAM RADAR MATCHING FORMBOLD -->
+                <!-- BACKEND FORMBOLD HONEYPOT: Catches direct endpoint API bots -->
                 <div style="display: none; visibility: hidden;" aria-hidden="true">
                     <input type="text" name="_honeypot" style="display: none;">
                 </div>
@@ -109,12 +106,10 @@
                 <button type="submit">Submit Inquiry</button>
             </form>
         </div>
-        
-        <!-- LOCAL FALLBACK LAYOUT CONTAINER -->
-        <div id="success-container">
+
+        <div id="success-message">
             <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
         </div>
-        
         <footer>
             <p>Unit 2904-05, 29/F, Universal Trade Centre, 3 Arbuthnot Road, Central, Hong Kong S.A.R</p>
             <p>&copy; 2026 Dioko &amp; Sons. All rights reserved.</p>
@@ -122,27 +117,25 @@
     </div>
 
 <script>
-    // Client Side Anti-Scraper Speed Filter
-    const systemReadyTimestamp = Date.now();
+    const startTime = Date.now();
 
-    // Check if the file is loaded via a hashtag placeholder route 
+    // Check if user arrived here via direct success parameter redirection hash
     if (window.location.hash === "#thank-you") {
-        document.getElementById('form-wrapper').style.display = 'none';
-        document.getElementById('success-container').style.display = 'block';
+        document.getElementById('form-container').style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
     }
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
-        const submissionLatency = (Date.now() - systemReadyTimestamp) / 1000;
+        const timeTakenInSeconds = (Date.now() - startTime) / 1000;
         
-        // Anti-Bot Time Lock: If instant automated submission, lock them local-side
-        if (submissionLatency < 3.0) { 
-            e.preventDefault(); 
-            document.getElementById('form-wrapper').style.display = 'none';
-            document.getElementById('success-container').style.display = 'block';
+        // FRONTEND TIME LOCK: Blocks speedy bots instantly
+        if (timeTakenInSeconds < 3.0) { 
+            e.preventDefault(); // Stop form from sending to FormBold
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
         }
-        // Genuine human traffic gracefully executes normal browser form processing natively
+        // Humans clear the check and submit normally, bypassing all browser blocks natively
     });
 </script>
-
 </body>
 </html>
