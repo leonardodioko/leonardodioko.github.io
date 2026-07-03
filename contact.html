@@ -66,6 +66,9 @@
             text-align: center;
         }
         footer { margin-top: 120px; }
+
+        /* Keeps the background frame completely hidden from cross-browser view layouts */
+        #hidden_iframe { display: none !important; visibility: hidden !important; width: 0; height: 0; border: 0; }
     </style>
 </head>
 <body>
@@ -83,8 +86,12 @@
             <div id="form-intro">
                 <p></p>
             </div>
-            <!-- STANDARD POST SUBMISSION METHOD TO ELIMINATE 405 CORS ERRORS -->
-            <form id="contact-form" action="https://formbold.com" method="POST">
+
+            <!-- 1. BACKGROUND IFRAME TARGET WITH SECURE PLACEHOLDER SOURCE FOR FIREFOX -->
+            <iframe name="hidden_iframe" id="hidden_iframe" src="about:blank"></iframe>
+
+            <!-- 2. ROUTE FORM DIRECTLY THROUGH THE IFRAME WINDOW -->
+            <form id="contact-form" action="https://formbold.com" method="POST" target="hidden_iframe">
                 <div class="form-group">
                     <label for="name">Your Name</label>
                     <input type="text" id="name" name="name" required>
@@ -98,7 +105,7 @@
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
 
-                <!-- BACKEND FORMBOLD HONEYPOT: Catches direct endpoint API bots -->
+                <!-- BACKEND FORMBOLD HONEYPOT: Blocks scraping API scripts -->
                 <div style="display: none; visibility: hidden;" aria-hidden="true">
                     <input type="text" name="_honeypot" style="display: none;">
                 </div>
@@ -118,23 +125,30 @@
 
 <script>
     const startTime = Date.now();
-
-    // Check if user arrived here via direct success parameter redirection hash
-    if (window.location.hash === "#thank-you") {
-        document.getElementById('form-container').style.display = 'none';
-        document.getElementById('success-message').style.display = 'block';
-    }
+    let formSubmittedByHuman = false;
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
         const timeTakenInSeconds = (Date.now() - startTime) / 1000;
         
-        // FRONTEND TIME LOCK: Blocks speedy bots instantly
+        // ANTI-SPAM TIME LOCK: Drops bot requests immediately on frontend
         if (timeTakenInSeconds < 3.0) { 
-            e.preventDefault(); // Stop form from sending to FormBold
+            e.preventDefault(); // Halts communication entirely
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            return;
+        }
+        
+        // Signals our iframe handler that a real visitor successfully clicked
+        formSubmittedByHuman = true;
+    });
+
+    // Native browser window tracking listener 
+    document.getElementById('hidden_iframe').addEventListener('load', function() {
+        // Triggers your custom thank-you layout smooth swap the split second the server approves the data
+        if (formSubmittedByHuman) {
             document.getElementById('form-container').style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
         }
-        // Humans clear the check and submit normally, bypassing all browser blocks natively
     });
 </script>
 </body>
