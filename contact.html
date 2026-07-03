@@ -55,7 +55,7 @@
         }
         button:hover { background-color: #333333; }
 
-        /* Custom Success Page Container */
+        /* Custom Dynamic Confirmation Card */
         #success-container {
             display: none;
             background: #ffffff;
@@ -80,13 +80,13 @@
             <h1></h1>
         </header>
         
-        <!-- WRAPPER TARGETED FOR DYNAMIC VISIBILITY SWITCH -->
+        <!-- TARGETED CONTAINER LINK FOR SELECTIVE DISPLAY SWITCH -->
         <div id="form-wrapper">
             <div id="form-intro">
                 <p></p>
             </div>
 
-            <!-- UNBREAKABLE STANDARD NATIVE FORM OVERRIDE -->
+            <!-- ORGANIC HTML METHOD TO GUARANTEE FORM PROCESSING -->
             <form id="contact-form" action="https://formbold.com" method="POST">
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -101,16 +101,16 @@
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>
 
-                <!-- BACKEND BOT FILTERING: FormBold reads this natively to kill scrapers -->
+                <!-- ANTI-SPAM RADAR MATCHING FORMBOLD -->
                 <div style="display: none; visibility: hidden;" aria-hidden="true">
                     <input type="text" name="_honeypot" style="display: none;">
                 </div>
 
-                <button type="submit" id="submit-btn">Submit Inquiry</button>
+                <button type="submit">Submit Inquiry</button>
             </form>
         </div>
         
-        <!-- TARGET SHOW CONTAINER FOR CUSTOM LANDING -->
+        <!-- LOCAL FALLBACK LAYOUT CONTAINER -->
         <div id="success-container">
             <p style="margin-bottom: 0;">Thank you. Your message has been successfully transmitted, though it may take quite some time for us to get back.</p>
         </div>
@@ -122,25 +122,25 @@
     </div>
 
 <script>
-    // Pure Client-Side Anti-Spam Timer
-    const pageLoadTime = Date.now();
+    // Client Side Anti-Scraper Speed Filter
+    const systemReadyTimestamp = Date.now();
 
-    // Check if the user is loading a standard fallback bookmark link redirect
+    // Check if the file is loaded via a hashtag placeholder route 
     if (window.location.hash === "#thank-you") {
         document.getElementById('form-wrapper').style.display = 'none';
         document.getElementById('success-container').style.display = 'block';
     }
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
-        const timeElapsed = (Date.now() - pageLoadTime) / 1000;
+        const submissionLatency = (Date.now() - systemReadyTimestamp) / 1000;
         
-        // Anti-Bot Time Lock: If a machine fills fields instantly, fake success and block
-        if (timeElapsed < 3.0) { 
+        // Anti-Bot Time Lock: If instant automated submission, lock them local-side
+        if (submissionLatency < 3.0) { 
             e.preventDefault(); 
             document.getElementById('form-wrapper').style.display = 'none';
             document.getElementById('success-container').style.display = 'block';
         }
-        // If a real human submits normally, let it execute native HTML redirection to FormBold
+        // Genuine human traffic gracefully executes normal browser form processing natively
     });
 </script>
 
