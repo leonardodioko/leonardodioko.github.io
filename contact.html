@@ -66,6 +66,9 @@
             text-align: center;
         }
         footer { margin-top: 120px; }
+        
+        /* Keep the target frame hidden from view layout rendering */
+        #hidden_iframe { display: none !important; visibility: hidden !important; width: 0; height: 0; border: 0; }
     </style>
 </head>
 <body>
@@ -81,8 +84,12 @@
         <div id="form-intro">
             <p></p>
         </div>
+        
+        <!-- INVISIBLE TARGET LINKED HERE -->
+        <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
-        <form id="contact-form" action="https://formbold.com" method="POST">
+        <!-- TARGET LINKED TO IFRAME TO PREVENT REDIRECTS -->
+        <form id="contact-form" action="https://formbold.com" method="POST" target="hidden_iframe">
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" required>
@@ -115,43 +122,33 @@
     </div>
 
 <script>
+    // Anti-Spam Time Lock System
     const startTime = Date.now();
+    let isHumanSubmission = false;
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
         const timeTakenInSeconds = (Date.now() - startTime) / 1000;
         
-        // Anti-Spam Time Lock: Trick automated fast scripts
+        // If it's a fast automated bot script, trick it but block the frame from submitting
         if (timeTakenInSeconds < 3.0) { 
+            e.preventDefault(); // Stop actual post submission
             document.getElementById('form-intro').style.display = 'none';
             this.style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            return; 
+            return;
         }
-
-        var form = this;
-        var formData = new FormData(form);
         
-        // Native XMLHttpRequest provides stable cross-browser transmissions 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", form.action, true);
-        xhr.setRequestHeader("Accept", "application/json");
-        
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200 || xhr.status === 201) {
-                    // Reveal the custom layout styling box smoothly
-                    document.getElementById('form-intro').style.display = 'none';
-                    form.style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                } else {
-                    alert('Submission error. Please verify input variables and try again.');
-                }
-            }
-        };
+        // Set flag so our iframe hook knows a real person submitted successfully
+        isHumanSubmission = true;
+    });
 
-        xhr.send(formData);
+    // Handle frame state transformations natively 
+    document.getElementById('hidden_iframe').addEventListener('load', function() {
+        if (isHumanSubmission) {
+            document.getElementById('form-intro').style.display = 'none';
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
     });
 </script>
 
