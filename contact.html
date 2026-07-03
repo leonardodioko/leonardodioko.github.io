@@ -66,6 +66,9 @@
             text-align: center;
         }
         footer { margin-top: 120px; }
+        
+        /* Keep the target frame completely hidden from layout rendering */
+        #hidden_iframe { display: none !important; visibility: hidden !important; width: 0; height: 0; border: 0; }
     </style>
 </head>
 <body>
@@ -82,7 +85,11 @@
             <p></p>
         </div>
         
-        <form id="contact-form" action="https://formbold.com" method="POST">
+        <!-- INVISIBLE TARGET LINKED HERE -->
+        <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
+        <!-- TARGET LINKED TO IFRAME TO PREVENT REDIRECTS -->
+        <form id="contact-form" action="https://formbold.com" method="POST" target="hidden_iframe">
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" required>
@@ -115,49 +122,33 @@
     </div>
 
 <script>
+    // Anti-Spam Time Lock System
     const startTime = Date.now();
+    let isHumanSubmission = false;
 
     document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
         const timeTakenInSeconds = (Date.now() - startTime) / 1000;
         
-        // Anti-Spam Time Lock: Intercepts bots submitting in milliseconds
+        // If it's a fast automated script bot, trick it but block the frame from submitting
         if (timeTakenInSeconds < 3.0) { 
+            e.preventDefault(); // Stop actual post submission
             document.getElementById('form-intro').style.display = 'none';
             this.style.display = 'none';
             document.getElementById('success-message').style.display = 'block';
-            return; 
+            return;
         }
+        
+        // Set flag so our iframe hook knows a real person submitted successfully
+        isHumanSubmission = true;
+    });
 
-        var form = this;
-        var formData = new FormData(form);
-
-        // NATIVE FIX: Convert form properties to a clean JSON object structure
-        var formDataObject = Object.fromEntries(formData);
-
-        // AJAX POST FORMBOLD RULES
-        fetch(form.action, { 
-            method: 'POST', 
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json' 
-            }, 
-            body: JSON.stringify(formDataObject) 
-        })
-        .then(function(response) {
-            // FormBold returns JSON data on valid API submissions
-            if (response.ok) {
-                document.getElementById('form-intro').style.display = 'none';
-                form.style.display = 'none';
-                document.getElementById('success-message').style.display = 'block';
-            } else {
-                alert('Submission failed. Please verify form configuration.');
-            }
-        })
-        .catch(function() { 
-            alert('Submission failed. Please check your network or try again.'); 
-        });
+    // Handle frame state transformations natively 
+    document.getElementById('hidden_iframe').addEventListener('load', function() {
+        if (isHumanSubmission) {
+            document.getElementById('form-intro').style.display = 'none';
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+        }
     });
 </script>
 
