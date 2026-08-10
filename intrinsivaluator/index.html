@@ -1,1 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Small-Cap Intrinsic Value — Dioko &amp; Sons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#EEF1F4;
+  --paper:#FFFFFF;
+  --ink:#16202B;
+  --ink-soft:#4A5866;
+  --rule:#C3CCD4;
+  --rule-soft:#DDE3E8;
+  --filed:#16202B;
+  --derived:#1A5E63;
+  --assumed:#A8571F;
+  --warn:#8C2F1E;
+  --shell:#E3E8EC;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.55}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.filed{color:var(--filed)} .derived{color:var(--derived)} .assumed{color:var(--assumed)}
+h1,h2,h3{font-family:"Bodoni Moda",Didot,Georgia,serif;font-weight:400;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
 
+header{border-bottom:1px solid var(--rule);background:var(--paper)}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:30px 0 22px;flex-wrap:wrap}
+.mast h1{font-size:38px;line-height:1.05;letter-spacing:-.01em}
+.mast h1 em{font-style:italic}
+.eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:9px}
+.stamp{text-align:right;font-size:12px;color:var(--ink-soft);line-height:1.7}
+.stamp b{font-family:"IBM Plex Mono",monospace;color:var(--ink);font-weight:600}
+
+.key{display:flex;gap:20px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--rule-soft);font-size:11.5px;color:var(--ink-soft);background:var(--paper)}
+.key span{display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+.hero{display:grid;grid-template-columns:320px 1fr;gap:38px;padding:36px 0 40px;align-items:start}
+.column-wrap{position:relative}
+.col-frame{position:relative}
+.column{width:calc(100% - 104px);border:1px solid var(--ink);background:var(--paper);position:relative;overflow:hidden;display:flex;flex-direction:column-reverse;min-height:2px}
+.seg{position:relative;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-size:11.5px;transition:height .45s cubic-bezier(.4,0,.2,1);overflow:hidden;border-top:1px solid rgba(255,255,255,.45)}
+.seg span:first-child{letter-spacing:.06em;text-transform:uppercase;font-size:9.5px;white-space:nowrap;overflow:hidden}
+.seg-val{font-family:"IBM Plex Mono",monospace;font-weight:600}
+.cum{position:absolute;right:0;width:100px;padding-left:14px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);white-space:nowrap;transform:translateY(50%);transition:bottom .45s cubic-bezier(.4,0,.2,1)}
+.cum::before{content:"";position:absolute;left:0;top:50%;width:9px;border-top:1px solid var(--rule)}
+.cum b{font-weight:600;color:var(--derived)}
+.cum.mark{color:var(--ink)}
+.cum.mark::before{border-top:1px solid var(--ink);width:11px}
+.cum.mark b{color:var(--ink);font-size:12.5px}
+.cum i{font-style:normal;font-size:9px;letter-spacing:.09em;text-transform:uppercase;display:block;color:var(--ink-soft);margin-top:-1px}
+.waterline{position:absolute;left:0;right:104px;height:0;border-top:2px dashed var(--warn);z-index:6;transition:bottom .45s cubic-bezier(.4,0,.2,1)}
+.waterline b{position:absolute;left:4px;top:-18px;background:var(--warn);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:10px;padding:1px 6px;white-space:nowrap}
+.col-cap{font-size:11px;color:var(--ink-soft);margin-top:12px;line-height:1.5}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:1px;background:var(--rule);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.card{background:var(--paper);padding:13px 15px 15px;border-left:3px solid transparent}
+.card .ct{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.card .cn{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft)}
+.card .cv{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600;line-height:1.15;margin:4px 0 2px}
+.card .ck{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border:1px solid currentColor;white-space:nowrap}
+.card .cd{font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-top:5px}
+.card.dim{opacity:.42}
+
+.readout{border-left:1px solid var(--rule);padding-left:30px}
+.readout .big{font-family:"IBM Plex Mono",monospace;font-size:60px;font-weight:600;line-height:1;letter-spacing:-.03em;color:var(--derived)}
+.readout .big small{font-size:22px;font-weight:400;color:var(--ink-soft)}
+.readout .sub{font-size:13px;color:var(--ink-soft);margin-top:8px}
+.verdict{margin-top:20px;padding:13px 15px;border:1px solid var(--rule);background:var(--paper);font-size:13.5px;line-height:1.6}
+.verdict b{font-family:"IBM Plex Mono",monospace}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+.tri div{background:var(--paper);padding:11px 13px}
+.tri .lab{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+.tri .v{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;margin-top:3px}
+
+section{border-top:1px solid var(--rule);background:var(--paper)}
+section.alt{background:var(--shell)}
+.sec-head{display:flex;align-items:baseline;gap:14px;padding:26px 0 4px}
+.sec-head h2{font-size:25px}
+.sec-head .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--assumed);letter-spacing:.1em}
+.sec-note{font-size:13px;color:var(--ink-soft);max-width:70ch;padding-bottom:18px}
+.pad{padding-bottom:34px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:12px 18px}
+.f{display:flex;flex-direction:column;gap:3px}
+.f label{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.f input,.f select{font-family:"IBM Plex Mono",monospace;font-size:14px;padding:6px 8px;
+  border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:0;width:100%}
+.f input:focus,.f select:focus{outline:2px solid var(--derived);outline-offset:-2px}
+.f input.as,.f select.as{color:var(--assumed);border-color:#E2C4AB}
+.f .hint{font-size:10.5px;color:var(--ink-soft)}
+fieldset{border:0;padding:0;margin:0 0 22px}
+legend{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);padding:0 0 9px;border-bottom:1px solid var(--rule);width:100%;margin-bottom:13px}
+
+.sliders{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px 26px}
+.sl label{display:flex;justify-content:space-between;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.sl label b{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--assumed);letter-spacing:0;text-transform:none}
+.sl input[type=range]{width:100%;accent-color:#A8571F;height:20px}
+.sl .why{font-size:10.5px;color:var(--ink-soft);margin-top:2px;line-height:1.45}
+.checks{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.checks label{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;cursor:pointer;line-height:1.45}
+.checks input{margin-top:3px;accent-color:#1A5E63;flex-shrink:0}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:right;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;padding:0 10px 7px;border-bottom:1px solid var(--rule)}
+th:first-child{text-align:left}
+td{padding:6px 10px;border-bottom:1px solid var(--rule-soft);text-align:right;font-family:"IBM Plex Mono",monospace}
+td:first-child{text-align:left;font-family:"IBM Plex Sans",sans-serif}
+tr.tot td{border-top:1.5px solid var(--ink);border-bottom:none;font-weight:600;padding-top:9px}
+tr.sub td{color:var(--ink-soft);font-size:12px}
+tr.off td{opacity:.35}
+.tag{font-size:9px;letter-spacing:.09em;text-transform:uppercase;padding:1px 5px;border:1px solid currentColor;margin-left:7px;white-space:nowrap;font-family:"IBM Plex Sans",sans-serif}
+.src{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft);display:block;margin-top:1px}
+
+.btn{font-family:"IBM Plex Sans",sans-serif;font-size:12.5px;letter-spacing:.05em;
+  padding:8px 16px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;border-radius:0}
+.btn:hover{background:#000}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fff}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+
+.intake{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.intake input{flex:1 1 420px;font-family:"IBM Plex Mono",monospace;font-size:14px;padding:11px 12px;
+  border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:0}
+.intake input:focus{outline:2px solid var(--derived);outline-offset:-2px}
+.status{margin-top:12px;font-size:12.5px;font-family:"IBM Plex Mono",monospace;min-height:20px}
+.status.err{color:var(--warn)}
+.status.ok{color:var(--derived)}
+.spin{display:inline-block;width:11px;height:11px;border:2px solid var(--rule);border-top-color:var(--derived);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-1px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.examples{font-size:11.5px;color:var(--ink-soft);margin-top:10px;line-height:1.7}
+.examples code{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--ground);padding:1px 5px}
+
+.scope{border:1px solid var(--rule);background:var(--paper);padding:14px 16px;margin-top:16px;display:none}
+.scope.show{display:block}
+.scope.bad{border-color:var(--warn);border-left:3px solid var(--warn)}
+.scope.ok{border-left:3px solid var(--derived)}
+.scope h3{font-size:16px;margin-bottom:5px}
+.scope p{margin:0;font-size:13px;color:var(--ink-soft);line-height:1.6}
+
+.chart{width:100%;background:var(--paper);border:1px solid var(--rule);display:block}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+.legend i{width:15px;height:3px;display:inline-block;vertical-align:2px;margin-right:6px}
+
+.verdictbox{border-top:2px solid var(--ink);background:var(--paper);padding:22px 0 12px;margin-top:26px}
+.verdictbox h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-family:"IBM Plex Sans",sans-serif;font-weight:500;margin-bottom:13px;text-align:center}
+.verdictbox p{margin:0 auto;font-family:"Bodoni Moda",Didot,Georgia,serif;font-size:19px;line-height:1.6;max-width:940px;text-wrap:pretty}
+
+.ledbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0 4px}
+.ledtag{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);border:1px solid var(--rule);padding:3px 9px;background:var(--paper)}
+td .del{background:none;border:0;color:var(--ink-soft);cursor:pointer;font-size:14px;padding:0 4px;line-height:1}
+td .del:hover{color:var(--warn)}
+.empty{padding:26px 20px;text-align:center;color:var(--ink-soft);font-size:13px;border:1px dashed var(--rule);background:var(--ground)}
+
+.dl{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;white-space:nowrap;
+  padding:1px 5px;border:1px solid currentColor;margin-left:7px;vertical-align:middle;display:inline-block}
+.dl.up{color:var(--derived)} .dl.dn{color:var(--warn)} .dl.flat{display:none}
+.readout .big .dl{font-size:15px;padding:2px 8px;margin-left:12px}
+.lev td.bar{padding:0 10px;width:190px}
+.levbar{position:relative;height:15px;background:var(--rule-soft)}
+.levbar i{position:absolute;top:0;bottom:0;background:var(--assumed);opacity:.8}
+.levbar u{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--ink)}
+
+.callout{border-left:3px solid var(--assumed);background:var(--ground);padding:12px 15px;font-size:13px;margin-top:18px;line-height:1.6}
+.callout.warn{border-left-color:var(--warn)}
+.callout b{font-family:"IBM Plex Mono",monospace}
+footer{border-top:1px solid var(--rule);background:var(--paper);padding:26px 0 40px;font-size:12px;color:var(--ink-soft);line-height:1.7}
+.scroll{overflow-x:auto}
+#app{display:none}
+#app.ready{display:block}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:26px}
+  .readout{border-left:0;border-top:1px solid var(--rule);padding-left:0;padding-top:22px}
+  .readout .big{font-size:46px}
+  .mast h1{font-size:29px}
+  .col-frame{max-width:340px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap mast">
+    <div>
+      <div class="eyebrow">Dioko &amp; Sons Heritage Holdings — Valuation Instrument</div>
+      <h1>Small-Cap <em>Intrinsic Value</em><br>from EDGAR</h1>
+    </div>
+    <div class="stamp">
+      Company &nbsp;<b id="stampCo">—</b><br>
+      Source &nbsp;<b id="stampPeriod">—</b><br>
+      Discount rate &nbsp;<b id="stampRate">—</b><br>
+      Market price &nbsp;<b id="stampPx">—</b>
+    </div>
+  </div>
+</header>
+
+<div style="background:var(--paper)"><div class="wrap key">
+  <span><i class="dot" style="background:var(--filed)"></i> Filed — tagged in the company's own XBRL</span>
+  <span><i class="dot" style="background:var(--derived)"></i> Derived — computed by this model</span>
+  <span><i class="dot" style="background:var(--assumed)"></i> Assumed — your judgement, adjustable below</span>
+</div></div>
+
+<!-- ============ 01 INTAKE ============ -->
+<section>
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">01</span><h2>Load a company</h2></div>
+  <div class="sec-note">Paste any EDGAR address for the company — a filing, the company page, a search result. The tool takes the CIK out of the link and pulls the full tagged financial history straight from the SEC.</div>
+
+  <div class="intake">
+    <input id="edgarUrl" placeholder="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001023128" spellcheck="false">
+    <button class="btn" id="loadBtn">Load from EDGAR</button>
+  </div>
+  <div class="status" id="status"></div>
+  <div class="examples">
+    Any of these work: a filing document link, <code>…/Archives/edgar/data/1023128/…</code> &nbsp;·&nbsp;
+    a company page, <code>…browse-edgar?…CIK=0001023128</code> &nbsp;·&nbsp; or just the number, <code>1023128</code>.
+  </div>
+
+  <div class="scope" id="scope"><h3 id="scopeH"></h3><p id="scopeP"></p></div>
+</div>
+</section>
+
+<div id="app">
+
+<!-- ============ HERO ============ -->
+<div style="background:var(--paper)"><div class="wrap hero">
+  <div class="column-wrap">
+    <div class="col-frame">
+      <div class="column" id="column"></div>
+      <div class="waterline" id="waterline" style="display:none"><b id="wlLabel"></b></div>
+    </div>
+    <div class="col-cap">Bands stack upward from the base. Figures on the right are the <b>running total</b> per share at each boundary; the dashed line is the market price. A net-debt company shows its debt band below the axis.</div>
+  </div>
+  <div class="readout">
+    <div class="eyebrow">Conservative intrinsic value per share</div>
+    <div class="big"><small>$</small><span id="ivTotal">—</span><span id="dlTotal"></span></div>
+    <div class="sub" id="ivSub">—</div>
+    <div class="verdict" id="verdict">—</div>
+    <div class="tri">
+      <div><div class="lab">With growth</div><div class="v assumed" id="triG">—</div></div>
+      <div><div class="lab">Discount to price</div><div class="v derived" id="triD">—</div></div>
+      <div><div class="lab">Owner earnings yield</div><div class="v" style="color:var(--ink-soft)" id="triY">—</div></div>
+    </div>
+  </div>
+</div>
+<div class="cards" id="cards"></div>
+</div>
+
+<!-- ============ 02 WHAT THE FILINGS SAY ============ -->
+<section class="alt">
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">02</span><h2>What the filings say</h2></div>
+  <div class="sec-note">Every figure below came out of the company's own XBRL tags. The small grey line under each name is the exact tag used — small caps tag inconsistently, so a wrong number nearly always shows up here as a surprising tag rather than as an error.</div>
+  <div class="scroll"><table id="factsTable"></table></div>
+  <div class="callout" id="ttmNote"></div>
+</div>
+</section>
+
+<!-- ============ 03 ASSUMPTIONS ============ -->
+<section>
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">03</span><h2>Your assumptions</h2></div>
+  <div class="sec-note">Four judgements carry this model. The discount rate is built up in visible pieces rather than picked as a single number, because for a small cap it is doing the work that a margin of safety does elsewhere.</div>
+
+  <fieldset>
+    <legend>Discount rate — built up, not picked</legend>
+    <div class="sliders">
+      <div class="sl"><label>Risk-free, 30-yr Treasury <b id="vRf"></b></label>
+        <input type="range" id="rf" min="2" max="8" step="0.01" value="5.19">
+        <div class="why">The base. Type the current long bond yield.</div></div>
+      <div class="sl"><label>Equity risk premium <b id="vErp"></b></label>
+        <input type="range" id="erp" min="0" max="8" step="0.1" value="4.5">
+        <div class="why">What equities in general must pay above the bond.</div></div>
+      <div class="sl"><label>Size premium <b id="vSize"></b></label>
+        <input type="range" id="size" min="0" max="8" step="0.1" value="2.5">
+        <div class="why">Small companies are not diversified holding companies. Thinner cover, thinner markets.</div></div>
+      <div class="sl"><label>Quality adjustment <b id="vQual"></b></label>
+        <input type="range" id="qual" min="-2" max="6" step="0.1" value="1">
+        <div class="why">Customer concentration, leverage, cyclicality, disruption risk. Negative only for a genuinely durable franchise.</div></div>
+    </div>
+    <div class="callout" id="rateNote"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Maintenance capex — the biggest source of error in the model</legend>
+    <div class="grid">
+      <div class="f"><label>Estimate from</label>
+        <select id="mcMethod" class="as">
+          <option value="max">Most conservative of the three</option>
+          <option value="da">Depreciation &amp; amortisation</option>
+          <option value="cycle">Capex averaged over the cycle</option>
+          <option value="greenwald">Greenwald — capex less growth capex</option>
+          <option value="manual">Enter it myself</option>
+        </select>
+        <div class="hint">Nobody reports this figure. It is always an assumption.</div></div>
+      <div class="f"><label>Manual figure, $ millions</label>
+        <input id="mcManual" class="as num" value="0">
+        <div class="hint">Used only when the method above is set to manual.</div></div>
+    </div>
+    <div class="callout" id="mcNote"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Growth, price, and what to include</legend>
+    <div class="grid">
+      <div class="f"><label>Market price per share, $</label>
+        <input id="px" class="as num" value="0" inputmode="decimal">
+        <div class="hint">One number, typed. No free price feed can be called from a static page.</div></div>
+      <div class="f"><label>Owner-earnings growth, % a year</label>
+        <input id="g" class="as num" value="3" inputmode="decimal">
+        <div class="hint">Displayed as its own layer. Never folded into the headline.</div></div>
+      <div class="f"><label>Growth runs for, years</label>
+        <input id="gYears" class="as num" value="10" inputmode="decimal">
+        <div class="hint">After this it fades to nothing.</div></div>
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" id="incLeases" checked> Count capitalised operating leases as debt <span style="color:var(--ink-soft)">— they are borrowings in all but name, and small caps hide a lot of leverage there</span></label>
+      <label><input type="checkbox" id="incInv" checked> Count long-term investments as balance-sheet value <span style="color:var(--ink-soft)">— switch off if they are illiquid or strategic stakes you could not sell</span></label>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <button class="btn ghost" id="pinBtn">Pin these as the baseline</button>
+    <button class="btn ghost" id="resetBtn">Reset to defaults</button>
+    <span class="ledtag" id="pinTag">No baseline pinned</span>
+  </div>
+</div>
+</section>
+
+<!-- ============ 04 THE BUILD ============ -->
+<section class="alt">
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">04</span><h2>The build</h2></div>
+  <div class="sec-note">Two columns, in Buffett's construction: what the business earns, capitalised — and what sits on the balance sheet that the business does not need to earn it.</div>
+  <div class="scroll"><table id="buildTable"></table></div>
+</div>
+</section>
+
+<!-- ============ 05 LEVERAGE ============ -->
+<section>
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">05</span><h2>Which assumption moves the answer</h2></div>
+  <div class="sec-note">Each assumption nudged up and down by a sensible step, sorted by how far the answer travels. A row reading zero is an assumption that is switched off or does not matter — worth knowing either way.</div>
+  <div class="scroll"><table class="lev" id="levTable"></table></div>
+</div>
+</section>
+
+<!-- ============ 06 REVERSE TEST ============ -->
+<section class="alt">
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">06</span><h2>Reverse test</h2></div>
+  <div class="sec-note">Rather than asking what the company is worth, ask what the market's price already assumes. This is the discipline that survives without a price history: if the implied figures are ones you would happily underwrite, the discount is real.</div>
+  <div class="scroll"><table id="revTable"></table></div>
+  <div class="verdictbox"><h3>What this says</h3><p id="revVerdict">—</p></div>
+</div>
+</section>
+
+<!-- ============ 07 PROJECTION ============ -->
+<section>
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">07</span><h2>The growth layer, drawn</h2></div>
+  <div class="sec-note">The conservative value assumes the company earns what it earns now, forever. The upper line adds the growth you specified. The gap between them is the part of the case that depends on the future going right.</div>
+  <svg class="chart" id="projChart" viewBox="0 0 900 340" preserveAspectRatio="none" height="340"></svg>
+  <div class="legend">
+    <span><i style="background:var(--derived)"></i> Conservative — no growth</span>
+    <span><i style="background:var(--assumed)"></i> With the growth layer</span>
+    <span><i style="background:var(--warn)"></i> Market price today</span>
+  </div>
+</div>
+</section>
+
+<!-- ============ 08 LEDGER ============ -->
+<section class="alt">
+<div class="wrap pad">
+  <div class="sec-head"><span class="n">08</span><h2>Ledger</h2></div>
+  <div class="sec-note">Record each reading as you take it. Over several filings this becomes the record the price-history back-test would have given you — your own calls, dated, with the price you saw at the time. Export it before closing the page.</div>
+  <div class="ledbar">
+    <button class="btn" id="recBtn">Record this reading</button>
+    <button class="btn ghost" id="expBtn">Export JSON</button>
+    <button class="btn ghost" id="impBtn">Import JSON</button>
+    <input type="file" id="impFile" accept="application/json" style="display:none">
+    <span class="ledtag" id="ledCount">0 readings</span>
+  </div>
+  <div class="scroll" id="ledWrap"></div>
+</div>
+</section>
+
+</div><!-- /#app -->
+
+<footer><div class="wrap">
+  Financial data from the SEC's XBRL company-facts API, retrieved live in your browser. Prices, growth and all rate components are your own input.
+  This is a valuation instrument, not investment advice, and it is deliberately unsuited to banks, insurers, REITs and pre-revenue companies.
+  <br>Dioko &amp; Sons Heritage Holdings Limited — internal use.
+</div></footer>
+
+<script>
+"use strict";
+
+/* ============================================================
+   TAG CHAINS — ordered candidates, first match wins.
+   ============================================================ */
+const CHAIN = {
+  netIncome:  ["NetIncomeLoss","ProfitLoss","NetIncomeLossAvailableToCommonStockholdersBasic"],
+  revenue:    ["RevenueFromContractWithCustomerExcludingAssessedTax","Revenues",
+               "RevenueFromContractWithCustomerIncludingAssessedTax","SalesRevenueNet"],
+  da:         ["DepreciationDepletionAndAmortization","DepreciationAmortizationAndAccretionNet",
+               "DepreciationAndAmortization","Depreciation"],
+  capex:      ["PaymentsToAcquirePropertyPlantAndEquipment","PaymentsToAcquireProductiveAssets",
+               "PaymentsForCapitalImprovements","PaymentsToAcquirePropertyPlantAndEquipmentExcludingInterestCapitalized"],
+  ocf:        ["NetCashProvidedByUsedInOperatingActivities",
+               "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations"],
+  cash:       ["CashAndCashEquivalentsAtCarryingValue",
+               "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"],
+  stInv:      ["ShortTermInvestments","MarketableSecuritiesCurrent",
+               "AvailableForSaleSecuritiesDebtSecuritiesCurrent","OtherShortTermInvestments"],
+  ltInv:      ["LongTermInvestments","MarketableSecuritiesNoncurrent",
+               "AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"],
+  ltDebt:     ["LongTermDebtNoncurrent","LongTermDebt","LongTermDebtAndCapitalLeaseObligations"],
+  stDebt:     ["LongTermDebtCurrent","DebtCurrent","ShortTermBorrowings",
+               "LongTermDebtAndCapitalLeaseObligationsCurrent"],
+  leaseLT:    ["OperatingLeaseLiabilityNoncurrent"],
+  leaseST:    ["OperatingLeaseLiabilityCurrent"],
+  equity:     ["StockholdersEquity","StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
+  assets:     ["Assets"]
+};
+const SHARE_CHAIN = ["EntityCommonStockSharesOutstanding","CommonStockSharesOutstanding",
+                     "WeightedAverageNumberOfDilutedSharesOutstanding",
+                     "WeightedAverageNumberOfSharesOutstandingBasic"];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let FACTS = null;      // raw companyfacts
+let META  = null;      // submissions metadata
+let F     = null;      // normalised figures
+let BASE  = null;      // pinned baseline model
+let LEDGER = [];       // in-memory; export to keep
+
+/* ============================================================
+   EDGAR
+   ============================================================ */
+function cikFromUrl(s){
+  if(!s) return null;
+  const t = s.trim();
+  if(/^\d{1,10}$/.test(t)) return t.padStart(10,"0");
+  let m = t.match(/[?&]CIK=0*(\d{1,10})/i);          // browse-edgar / edgar browse
+  if(m) return m[1].padStart(10,"0");
+  m = t.match(/\/data\/0*(\d{1,10})/i);              // Archives path
+  if(m) return m[1].padStart(10,"0");
+  m = t.match(/CIK0*(\d{1,10})/i);                   // data.sec.gov style
+  if(m) return m[1].padStart(10,"0");
+  return null;
+}
+
+function say(msg, cls){
+  const el = document.getElementById("status");
+  el.className = "status" + (cls ? " " + cls : "");
+  el.innerHTML = msg;
+}
+
+async function loadCompany(){
+  const cik = cikFromUrl(document.getElementById("edgarUrl").value);
+  if(!cik){
+    say("That link has no CIK in it. Paste an EDGAR address, or just the CIK number.","err");
+    return;
+  }
+  document.getElementById("loadBtn").disabled = true;
+  say('<i class="spin"></i>Reading CIK ' + cik + ' from EDGAR…');
+  try{
+    const [sub, facts] = await Promise.all([
+      fetch("https://data.sec.gov/submissions/CIK"+cik+".json").then(chk),
+      fetch("https://data.sec.gov/api/xbrl/companyfacts/CIK"+cik+".json").then(chk)
+    ]);
+    META = sub; FACTS = facts;
+    const verdict = scopeCheck(sub);
+    showScope(verdict);
+    if(!verdict.ok){ say("Loaded, but out of scope — see below.","err"); document.getElementById("loadBtn").disabled=false; return; }
+    F = normalise(facts);
+    if(!F.ok){ say(F.why,"err"); document.getElementById("loadBtn").disabled=false; return; }
+    seedAssumptions();
+    document.getElementById("app").classList.add("ready");
+    say("Loaded " + sub.name + " — " + F.periodLabel + ".","ok");
+    render();
+  }catch(err){
+    say("Could not reach EDGAR: " + err.message +
+        "<br>If this says CORS or Failed to fetch, the page must be served over https — open it from your site, not from a local file.","err");
+  }
+  document.getElementById("loadBtn").disabled = false;
+}
+function chk(r){ if(!r.ok) throw new Error("HTTP "+r.status+(r.status===404?" — no XBRL filings for this CIK":"")); return r.json(); }
+
+/* ============================================================
+   SCOPE — refuse rather than return a wrong number
+   ============================================================ */
+function scopeCheck(sub){
+  const sic = parseInt(sub.sic || "0", 10);
+  const desc = sub.sicDescription || "unclassified";
+  if(sic >= 6000 && sic <= 6799)
+    return {ok:false, head:"Out of scope — financial company",
+      body:"SIC "+sic+", "+desc+". For a bank, insurer, fund or REIT, debt is raw material rather than a claim on the owner, and subtracting it at face is meaningless. This model would return a confident wrong number. Value it another way."};
+  if(sic >= 2833 && sic <= 2836)
+    return {ok:false, head:"Out of scope — pharmaceutical or biological products",
+      body:"SIC "+sic+", "+desc+". Value here sits in a pipeline rather than in current earnings, and capitalising today's profit misses the entire question."};
+  if(sub.entityType && sub.entityType !== "operating")
+    return {ok:false, head:"Out of scope — not an operating company",
+      body:"EDGAR classifies this filer as \u201C"+sub.entityType+"\u201D."};
+  return {ok:true, head:"In scope — "+desc,
+    body:"SIC "+sic+". "+(sub.category||"Filer")+", fiscal year ends "+fyEnd(sub.fiscalYearEnd)+". Checked against the exclusions this model states for itself; the judgement about whether the business is understandable remains yours."};
+}
+function fyEnd(s){
+  if(!s || s.length!==4) return "—";
+  const m=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return m[parseInt(s.slice(0,2),10)-1] + " " + parseInt(s.slice(2),10);
+}
+function showScope(v){
+  const el = document.getElementById("scope");
+  el.className = "scope show " + (v.ok ? "ok" : "bad");
+  document.getElementById("scopeH").textContent = v.head;
+  document.getElementById("scopeP").textContent = v.body;
+}
+
+/* ============================================================
+   NORMALISATION
+   ============================================================ */
+function dedupe(arr){
+  const best = {};
+  arr.forEach(f=>{
+    const k = (f.start||"") + "|" + f.end;
+    if(!best[k] || f.filed > best[k].filed) best[k] = f;
+  });
+  return Object.values(best).sort((a,b)=> a.end < b.end ? -1 : 1);
+}
+function unitsFor(facts, tag, taxonomy, unit){
+  const node = (facts.facts[taxonomy]||{})[tag];
+  if(!node) return null;
+  return node.units[unit] || null;
+}
+function pick(facts, chain, taxonomy, unit){
+  for(const tag of chain){
+    const u = unitsFor(facts, tag, taxonomy, unit);
+    if(u && u.length) return {tag, rows: dedupe(u)};
+  }
+  return null;
+}
+function days(f){
+  if(!f.start) return 0;
+  return Math.round((Date.parse(f.end) - Date.parse(f.start)) / 86400000);
+}
+
+/* A flow figure on a trailing-twelve-month basis.
+   Annual fact, plus the year-to-date roll-forward when a later 10-Q exists. */
+function flow(facts, chain){
+  const got = pick(facts, chain, "us-gaap", "USD");
+  if(!got) return null;
+  const annual = got.rows.filter(f=> days(f) >= 300 && days(f) <= 400);
+  if(!annual.length) return null;
+  const fy = annual[annual.length-1];
+
+  // year-to-date periods that finish after the fiscal year did
+  const ytd = got.rows.filter(f=> f.end > fy.end && days(f) >= 60);
+  if(ytd.length){
+    const cur = ytd[ytd.length-1];
+    const want = days(cur);
+    // the same window a year earlier, to take out of the annual figure
+    let prior = null, bestGap = 1e9;
+    got.rows.forEach(f=>{
+      if(f.end >= fy.end) return;
+      if(Math.abs(days(f) - want) > 20) return;
+      const gap = Math.abs((Date.parse(cur.end) - Date.parse(f.end))/86400000 - 365);
+      if(gap < 40 && gap < bestGap){ bestGap = gap; prior = f; }
+    });
+    if(prior) return {tag:got.tag, val: fy.val + cur.val - prior.val,
+                      basis:"ttm", end:cur.end, fyEnd:fy.end, window:want};
+  }
+  return {tag:got.tag, val: fy.val, basis:"fy", end:fy.end, fyEnd:fy.end, window:days(fy)};
+}
+
+/* A balance-sheet figure — the most recent instant. */
+function stock(facts, chain){
+  const got = pick(facts, chain, "us-gaap", "USD");
+  if(!got) return null;
+  const inst = got.rows.filter(f=> !f.start);
+  if(!inst.length) return null;
+  const last = inst[inst.length-1];
+  return {tag:got.tag, val:last.val, end:last.end};
+}
+
+function shares(facts){
+  for(const tag of SHARE_CHAIN){
+    let u = unitsFor(facts,tag,"dei","shares") || unitsFor(facts,tag,"us-gaap","shares");
+    if(u && u.length){
+      const rows = dedupe(u);
+      const last = rows[rows.length-1];
+      return {tag:tag, val:last.val, end:last.end};
+    }
+  }
+  return null;
+}
+
+/* Capex history, for the cycle average. */
+function capexHistory(facts){
+  const got = pick(facts, CHAIN.capex, "us-gaap", "USD");
+  if(!got) return [];
+  return got.rows.filter(f=> days(f) >= 300 && days(f) <= 400).slice(-7);
+}
+function revenueHistory(facts){
+  const got = pick(facts, CHAIN.revenue, "us-gaap", "USD");
+  if(!got) return [];
+  return got.rows.filter(f=> days(f) >= 300 && days(f) <= 400).slice(-7);
+}
+
+function normalise(facts){
+  const o = {};
+  o.netIncome = flow(facts, CHAIN.netIncome);
+  o.revenue   = flow(facts, CHAIN.revenue);
+  o.da        = flow(facts, CHAIN.da);
+  o.capex     = flow(facts, CHAIN.capex);
+  o.ocf       = flow(facts, CHAIN.ocf);
+  o.cash      = stock(facts, CHAIN.cash);
+  o.stInv     = stock(facts, CHAIN.stInv);
+  o.ltInv     = stock(facts, CHAIN.ltInv);
+  o.ltDebt    = stock(facts, CHAIN.ltDebt);
+  o.stDebt    = stock(facts, CHAIN.stDebt);
+  o.leaseLT   = stock(facts, CHAIN.leaseLT);
+  o.leaseST   = stock(facts, CHAIN.leaseST);
+  o.equity    = stock(facts, CHAIN.equity);
+  o.shares    = shares(facts);
+  o.capexHist = capexHistory(facts);
+  o.revHist   = revenueHistory(facts);
+
+  if(!o.netIncome) return {ok:false, why:"No usable net income tag in this filer's XBRL. It may file under IFRS, or tag with company extensions this tool cannot read."};
+  if(!o.shares)    return {ok:false, why:"No share count found. Without it there is no per-share figure to compute."};
+
+  o.ok = true;
+  o.periodLabel = (o.netIncome.basis==="ttm" ? "trailing twelve months to " : "fiscal year to ") + o.netIncome.end;
+  o.asOf = o.netIncome.end;
+  return o;
+}
+
+/* ============================================================
+   THE MODEL
+   ============================================================ */
+function v(x){ return x ? x.val : 0; }
+
+function maintCapex(o, method, manual){
+  const da = v(o.da);
+  const cx = Math.abs(v(o.capex));
+  const hist = o.capexHist.map(f=>Math.abs(f.val));
+  const cycle = hist.length ? hist.reduce((a,b)=>a+b,0)/hist.length : cx;
+
+  // Greenwald: the slice of capex attributable to growth is stripped out.
+  let green = cx;
+  const rh = o.revHist;
+  if(rh.length >= 3 && cx > 0){
+    const rev = v(o.revenue) || rh[rh.length-1].val;
+    const ratios = [];
+    for(let i=1;i<rh.length;i++){
+      if(rh[i-1].val>0) ratios.push((rh[i].val - rh[i-1].val));
+    }
+    const avgGrowth = ratios.length ? ratios.reduce((a,b)=>a+b,0)/ratios.length : 0;
+    const capexPerRev = rev>0 ? cx/rev : 0;
+    green = Math.max(0, cx - capexPerRev*Math.max(0,avgGrowth));
+  }
+
+  const opts = {da:da, cycle:cycle, greenwald:green, manual:Math.abs(manual)*1e6};
+  let used, label;
+  if(method==="max"){
+    const c = [["Depreciation & amortisation",da],["Cycle-average capex",cycle],["Greenwald",green]]
+      .filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+    if(c.length){ used=c[0][1]; label=c[0][0]+" (highest of three)"; }
+    else { used=0; label="No basis available"; }
+  } else {
+    used = opts[method] || 0;
+    label = {da:"Depreciation & amortisation",cycle:"Cycle-average capex",
+             greenwald:"Greenwald method",manual:"Entered manually"}[method];
+  }
+  return {used, label, opts};
+}
+
+function model(){
+  const i = readInputs();
+  const o = F;
+  const sh = v(o.shares);
+
+  const r = (i.rf + i.erp + i.size + i.qual) / 100;
+  const mc = maintCapex(o, i.mcMethod, i.mcManual);
+
+  const ni = v(o.netIncome);
+  const da = v(o.da);
+  const ownerEarnings = ni + da - mc.used;
+
+  const dpv = r > 0 ? ownerEarnings / r : 0;
+
+  const cash = v(o.cash) + v(o.stInv) + (i.incInv ? v(o.ltInv) : 0);
+  const leases = i.incLeases ? (v(o.leaseLT) + v(o.leaseST)) : 0;
+  const debt = v(o.ltDebt) + v(o.stDebt) + leases;
+  const netCash = cash - debt;
+
+  const total = dpv + netCash;
+
+  // growth layer: grow for N years, then flat, discounted at r
+  const g = i.g/100, N = Math.max(0, Math.round(i.gYears));
+  let withGrowth = 0;
+  if(r > 0){
+    let oe = ownerEarnings, pv = 0;
+    for(let t=1; t<=N; t++){ oe *= (1+g); pv += oe / Math.pow(1+r, t); }
+    pv += (oe / r) / Math.pow(1+r, N);
+    withGrowth = pv + netCash;
+  }
+
+  const per = x => sh > 0 ? x/sh : 0;
+
+  return {
+    i, r, mc, sh, ownerEarnings, ni, da, dpv, cash, debt, leases, netCash, total, withGrowth,
+    ps: {
+      dpv: per(dpv), cash: per(cash), debt: per(debt), netCash: per(netCash),
+      total: per(total), growth: per(withGrowth), oe: per(ownerEarnings),
+      equity: per(v(o.equity))
+    },
+    discount: i.px > 0 ? (per(total) - i.px)/per(total) : null,
+    yield: i.px > 0 ? per(ownerEarnings)/i.px : null
+  };
+}
+
+function readInputs(){
+  const n = id => parseFloat(document.getElementById(id).value) || 0;
+  return {
+    rf:n("rf"), erp:n("erp"), size:n("size"), qual:n("qual"),
+    mcMethod:document.getElementById("mcMethod").value,
+    mcManual:n("mcManual"),
+    px:n("px"), g:n("g"), gYears:n("gYears"),
+    incLeases:document.getElementById("incLeases").checked,
+    incInv:document.getElementById("incInv").checked
+  };
+}
+
+function seedAssumptions(){
+  // a starting maintenance-capex figure in millions, so the manual box is not zero
+  const cx = Math.abs(v(F.capex))/1e6;
+  document.getElementById("mcManual").value = cx ? cx.toFixed(1) : "0";
+}
+
+/* ============================================================
+   FORMATTING
+   ============================================================ */
+const money = (x,d=2) => (x<0?"\u2212":"") + "$" + Math.abs(x).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+const mm    = x => (x<0?"\u2212":"") + "$" + (Math.abs(x)/1e6).toLocaleString("en-US",{maximumFractionDigits:1}) + "m";
+const pct   = (x,d=1) => (x*100).toFixed(d) + "%";
+
+function delta(cur, base, fmt){
+  if(base === null || base === undefined || !isFinite(base)) return "";
+  const d = cur - base;
+  if(Math.abs(d) < 1e-9) return '<span class="dl flat"></span>';
+  const cls = d > 0 ? "up" : "dn";
+  return '<span class="dl '+cls+'">'+(d>0?"+":"\u2212")+fmt(Math.abs(d))+'</span>';
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  if(!F || !F.ok) return;
+  const m = model();
+
+  document.getElementById("vRf").textContent   = m.i.rf.toFixed(2)+"%";
+  document.getElementById("vErp").textContent  = m.i.erp.toFixed(1)+"%";
+  document.getElementById("vSize").textContent = m.i.size.toFixed(1)+"%";
+  document.getElementById("vQual").textContent = m.i.qual.toFixed(1)+"%";
+
+  document.getElementById("stampCo").textContent     = META ? META.name : "—";
+  document.getElementById("stampPeriod").textContent = F.periodLabel;
+  document.getElementById("stampRate").textContent   = pct(m.r,2);
+  document.getElementById("stampPx").textContent     = m.i.px>0 ? money(m.i.px) : "—";
+
+  document.getElementById("rateNote").innerHTML =
+    "Discount rate <b>"+pct(m.r,2)+"</b>. Capitalising a single small company's profits at anything near the risk-free rate asserts they are as certain as a government bond. "+
+    (m.r < 0.09 ? "<b>Below 9%</b> is generous for a small cap — check you can defend it." :
+     m.r > 0.14 ? "<b>Above 14%</b> says you think this is genuinely fragile. If so, ask whether you want to own it at any price." :
+     "This sits in the 9–14% range that a small cap normally deserves.");
+
+  document.getElementById("mcNote").innerHTML =
+    "Using <b>"+mm(m.mc.used)+"</b> — "+m.mc.label+". "+
+    "D&amp;A "+mm(m.mc.opts.da)+" · cycle average "+mm(m.mc.opts.cycle)+" · Greenwald "+mm(m.mc.opts.greenwald)+". "+
+    "Owner earnings are net income plus D&amp;A less this figure, so it comes off the answer dollar for dollar.";
+
+  renderHero(m);
+  renderCards(m);
+  renderFacts(m);
+  renderBuild(m);
+  renderLeverage(m);
+  renderReverse(m);
+  drawProjection(m);
+  document.getElementById("ttmNote").innerHTML = ttmNote();
+}
+
+function renderHero(m){
+  const bands = [];
+  bands.push({name:"Owner earnings capitalised", val:m.ps.dpv, col:"#C9D6D7", key:"DPV"});
+  if(m.ps.cash > 0) bands.push({name:"Cash and investments", val:m.ps.cash, col:"#DCE3E8", key:"Balance"});
+  const negDebt = m.ps.debt > 0;
+
+  const gross = bands.reduce((a,b)=>a+b.val,0);
+  const scaleMax = Math.max(gross, m.i.px, m.ps.total) * 1.06 || 1;
+  const H = 380;
+  const col = document.getElementById("column");
+  col.style.height = H + "px";
+
+  let html = "", run = 0;
+  bands.forEach(b=>{
+    const h = Math.max(0, (b.val/scaleMax)*H);
+    html += '<div class="seg" style="height:'+h+'px;background:'+b.col+'">'+
+            '<span>'+b.name+'</span><span class="seg-val">'+money(b.val)+'</span></div>';
+    run += b.val;
+  });
+  // debt sits as a cut out of the top
+  if(negDebt){
+    const h = Math.min(H*0.5, (m.ps.debt/scaleMax)*H);
+    html = '<div class="seg" style="height:'+h+'px;background:#E8D3CE;color:var(--warn)">'+
+           '<span>Less debt and leases</span><span class="seg-val">\u2212'+money(m.ps.debt).replace("$","$")+'</span></div>' + html;
+  }
+  col.innerHTML = html;
+
+  // running-total marks
+  const frame = col.parentElement;
+  frame.querySelectorAll(".cum").forEach(e=>e.remove());
+  let acc = 0;
+  const marks = [];
+  bands.forEach(b=>{ acc += b.val; marks.push({y:acc, label:money(acc), name:b.key}); });
+  if(negDebt) marks.push({y:m.ps.total, label:money(m.ps.total), name:"Net", strong:true});
+  else if(marks.length) marks[marks.length-1].strong = true;
+
+  marks.forEach(mk=>{
+    const d = document.createElement("div");
+    d.className = "cum" + (mk.strong ? " mark" : "");
+    d.style.bottom = Math.max(0, Math.min(H, (mk.y/scaleMax)*H)) + "px";
+    d.innerHTML = "<b>"+mk.label+"</b><i>"+mk.name+"</i>";
+    frame.appendChild(d);
+  });
+
+  const wl = document.getElementById("waterline");
+  if(m.i.px > 0){
+    wl.style.display = "block";
+    wl.style.bottom = Math.max(0, Math.min(H, (m.i.px/scaleMax)*H)) + "px";
+    document.getElementById("wlLabel").textContent = "Market " + money(m.i.px);
+  } else wl.style.display = "none";
+
+  document.getElementById("ivTotal").textContent = m.ps.total.toFixed(2);
+  document.getElementById("dlTotal").innerHTML = BASE ? delta(m.ps.total, BASE.ps.total, x=>x.toFixed(2)) : "";
+  document.getElementById("ivSub").textContent =
+    "Owner earnings of " + money(m.ps.oe) + " a share capitalised at " + pct(m.r,2) +
+    ", plus net " + (m.ps.netCash >= 0 ? "cash of " + money(m.ps.netCash) : "debt of " + money(-m.ps.netCash)) + " a share.";
+
+  const d = m.discount;
+  document.getElementById("verdict").innerHTML = m.i.px > 0
+    ? (d > 0
+        ? "At <b>"+money(m.i.px)+"</b> the market is asking <b>"+pct(1-d,0)+"</b> of this estimate — a discount of <b>"+pct(d,1)+"</b>. Read that against how much of the value is earnings you have had to assume rather than count."
+        : "At <b>"+money(m.i.px)+"</b> the market is asking <b>"+pct(-d,1)+"</b> more than this estimate. On these assumptions there is nothing here.")
+    : "Type a market price above to see the discount.";
+
+  document.getElementById("triG").textContent = money(m.ps.growth);
+  document.getElementById("triD").textContent = d===null ? "—" : pct(d,1);
+  document.getElementById("triY").textContent = m.yield===null ? "—" : pct(m.yield,1);
+}
+
+function renderCards(m){
+  const c = [
+    {n:"Owner earnings capitalised", v:money(m.ps.dpv), k:"DPV", cls:"derived",
+     d:"Net income plus D&amp;A less maintenance capex, as a level perpetuity at "+pct(m.r,2)+"."},
+    {n:"Cash and investments", v:money(m.ps.cash), k:"Balance", cls:"filed",
+     d:"Cash, short-term investments"+(m.i.incInv?" and long-term investments":"")+", at face."},
+    {n:"Debt and leases", v:"\u2212"+money(m.ps.debt), k:"Balance", cls:"filed",
+     d:"Borrowings"+(m.i.incLeases?" including capitalised operating leases":"")+", subtracted at face. A contractual senior claim is not discounted."},
+    {n:"Growth layer", v:money(m.ps.growth - m.ps.total), k:"DPV of growth", cls:"assumed",
+     d:m.i.g.toFixed(1)+"% a year for "+Math.round(m.i.gYears)+" years, shown separately and never folded into the headline."},
+    {n:"Book value per share", v:money(m.ps.equity), k:"Memo", cls:"", dim:true,
+     d:"Shown as a memo only. Unlike Berkshire, a small cap's book value is the same assets that produce the earnings above — adding it would be double counting."}
+  ];
+  document.getElementById("cards").innerHTML = c.map(x=>
+    '<div class="card'+(x.dim?" dim":"")+'" style="border-left-color:'+
+      (x.cls==="derived"?"var(--derived)":x.cls==="assumed"?"var(--assumed)":x.cls==="filed"?"var(--filed)":"var(--rule)")+'">'+
+    '<div class="ct"><div class="cn">'+x.n+'</div><div class="ck" style="color:var(--ink-soft)">'+x.k+'</div></div>'+
+    '<div class="cv '+x.cls+'">'+x.v+'</div><div class="cd">'+x.d+'</div></div>').join("");
+}
+
+function renderFacts(){
+  const rows = [
+    ["Net income", F.netIncome], ["Revenue", F.revenue],
+    ["Depreciation & amortisation", F.da], ["Capital expenditure", F.capex],
+    ["Cash from operations", F.ocf],
+    ["Cash and equivalents", F.cash], ["Short-term investments", F.stInv],
+    ["Long-term investments", F.ltInv],
+    ["Long-term debt", F.ltDebt], ["Debt, current portion", F.stDebt],
+    ["Operating leases, non-current", F.leaseLT], ["Operating leases, current", F.leaseST],
+    ["Shareholders' equity", F.equity], ["Total assets", null]
+  ];
+  let h = "<tr><th>Figure</th><th>As filed</th><th>Period ends</th><th>Basis</th></tr>";
+  rows.forEach(([name, f])=>{
+    if(!f){ return; }
+    h += '<tr><td>'+name+'<span class="src">'+f.tag+'</span></td>'+
+         '<td class="filed">'+mm(f.val)+'</td><td>'+f.end+'</td>'+
+         '<td>'+(f.basis==="ttm"?"Trailing 12m":f.basis==="fy"?"Fiscal year":"Instant")+'</td></tr>';
+  });
+  h += '<tr class="sub"><td>Shares outstanding<span class="src">'+F.shares.tag+'</span></td>'+
+       '<td class="filed">'+(v(F.shares)/1e6).toFixed(2)+'m</td><td>'+F.shares.end+'</td><td>Instant</td></tr>';
+  document.getElementById("factsTable").innerHTML = h;
+}
+
+function ttmNote(){
+  const b = F.netIncome.basis;
+  const missing = [];
+  if(!F.da) missing.push("depreciation &amp; amortisation");
+  if(!F.capex) missing.push("capital expenditure");
+  if(!F.revenue) missing.push("revenue");
+  let s = b==="ttm"
+    ? "Earnings are on a trailing-twelve-month basis: the last full fiscal year, plus the year-to-date period since, less the same period a year earlier."
+    : "No later quarterly filing was found, so earnings are the last full fiscal year rather than a trailing twelve months.";
+  if(missing.length) s += " <b>Not found in this filer's tags:</b> " + missing.join(", ") +
+    ". Where D&amp;A or capex is missing the maintenance-capex estimate loses a leg, and the answer is weaker for it.";
+  return s;
+}
+
+function renderBuild(m){
+  let h = "<tr><th>Component</th><th>Total</th><th>Per share</th><th>Treatment</th></tr>";
+  const row=(n,tot,ps,tr,cls,off)=>
+    '<tr'+(off?' class="off"':'')+'><td>'+n+'</td><td class="'+(cls||'')+'">'+mm(tot)+
+    '</td><td class="'+(cls||'')+'">'+money(ps)+'</td><td>'+tr+'</td></tr>';
+
+  h += row("Net income", m.ni, m.ni/m.sh, "Filed", "filed");
+  h += row("Plus depreciation &amp; amortisation", m.da, m.da/m.sh, "Filed", "filed");
+  h += row("Less maintenance capex", -m.mc.used, -m.mc.used/m.sh, m.mc.label, "assumed");
+  h += '<tr class="tot">'+
+       '<td>Owner earnings</td><td class="derived">'+mm(m.ownerEarnings)+'</td>'+
+       '<td class="derived">'+money(m.ps.oe)+'</td><td>One-year flow</td></tr>';
+  h += row("Capitalised at "+pct(m.r,2), m.dpv, m.ps.dpv, "DPV, level perpetuity", "derived");
+  h += row("Cash and investments", m.cash, m.ps.cash, "Balance, at face", "filed");
+  h += row("Less debt and leases", -m.debt, -m.ps.debt, "Balance, at face", "filed");
+  h += '<tr class="tot"><td>Conservative intrinsic value</td>'+
+       '<td class="derived">'+mm(m.total)+'</td><td class="derived">'+money(m.ps.total)+
+       '</td><td>Conservative headline</td></tr>';
+  h += '<tr class="sub"><td>Growth layer, shown separately</td>'+
+       '<td class="assumed">'+mm(m.withGrowth-m.total)+'</td>'+
+       '<td class="assumed">'+money(m.ps.growth-m.ps.total)+'</td><td>DPV of growth</td></tr>';
+  document.getElementById("buildTable").innerHTML = h;
+}
+
+function renderLeverage(m){
+  const base = m.ps.total;
+  const set=(id,val)=>{ document.getElementById(id).value = val; };
+  const probe = (id, delta) => {
+    const el = document.getElementById(id);
+    const old = el.value;
+    el.value = (parseFloat(old)||0) + delta;
+    const out = model().ps.total;
+    el.value = old;
+    return out;
+  };
+  const probeSel = (id, val) => {
+    const el = document.getElementById(id);
+    const old = el.value; el.value = val;
+    const out = model().ps.total; el.value = old; return out;
+  };
+  const probeChk = (id) => {
+    const el = document.getElementById(id);
+    el.checked = !el.checked;
+    const out = model().ps.total;
+    el.checked = !el.checked;
+    return out;
+  };
+
+  const items = [
+    {n:"Risk-free rate", step:"±0.50pp", lo:probe("rf",-0.5), hi:probe("rf",0.5)},
+    {n:"Equity risk premium", step:"±1.0pp", lo:probe("erp",-1), hi:probe("erp",1)},
+    {n:"Size premium", step:"±1.0pp", lo:probe("size",-1), hi:probe("size",1)},
+    {n:"Quality adjustment", step:"±1.0pp", lo:probe("qual",-1), hi:probe("qual",1)},
+    {n:"Maintenance capex method", step:"D&amp;A vs cycle", lo:probeSel("mcMethod","da"), hi:probeSel("mcMethod","cycle")},
+    {n:"Leases counted as debt", step:"on / off", lo:probeChk("incLeases"), hi:base},
+    {n:"Long-term investments counted", step:"on / off", lo:probeChk("incInv"), hi:base}
+  ];
+  items.forEach(it=>{ it.swing = Math.abs(it.hi - it.lo); });
+  items.sort((a,b)=> b.swing - a.swing);
+  const max = Math.max(...items.map(i=>i.swing), 0.01);
+
+  let h = "<tr><th>Assumption</th><th>Nudge</th><th>Low</th><th>High</th><th>Swing</th><th></th></tr>";
+  items.forEach(it=>{
+    const w = (it.swing/max)*100;
+    h += '<tr><td>'+it.n+'</td><td style="color:var(--ink-soft)">'+it.step+'</td>'+
+         '<td>'+money(Math.min(it.lo,it.hi))+'</td><td>'+money(Math.max(it.lo,it.hi))+'</td>'+
+         '<td class="'+(it.swing>0.005?"assumed":"")+'">'+money(it.swing)+'</td>'+
+         '<td class="bar"><div class="levbar"><i style="left:0;width:'+w+'%"></i>'+
+         '<u style="left:'+Math.min(99,(base/Math.max(base,1))*0)+'%"></u></div></td></tr>';
+  });
+  document.getElementById("levTable").innerHTML = h;
+}
+
+function renderReverse(m){
+  const px = m.i.px;
+  const el = document.getElementById("revTable");
+  const vd = document.getElementById("revVerdict");
+  if(!(px > 0)){
+    el.innerHTML = "";
+    vd.textContent = "Type a market price in section 03 and this fills in.";
+    return;
+  }
+  const sh = m.sh;
+  const netCashPS = m.ps.netCash;
+  const oePS = m.ps.oe;
+
+  // rate that makes the model equal the price, with no growth
+  let impliedR = null;
+  if(px - netCashPS > 0 && oePS > 0) impliedR = oePS / (px - netCashPS);
+
+  // growth (over the same horizon) that makes the model equal the price at your rate
+  let impliedG = null;
+  const N = Math.max(1, Math.round(m.i.gYears)), r = m.r;
+  const value = g => {
+    let oe = oePS, pv = 0;
+    for(let t=1;t<=N;t++){ oe *= (1+g); pv += oe/Math.pow(1+r,t); }
+    return pv + (oe/r)/Math.pow(1+r,N) + netCashPS;
+  };
+  if(oePS > 0 && r > 0){
+    let lo=-0.5, hi=0.9;
+    if(value(lo) < px && value(hi) > px){
+      for(let k=0;k<60;k++){ const mid=(lo+hi)/2; if(value(mid) < px) lo=mid; else hi=mid; }
+      impliedG = (lo+hi)/2;
+    }
+  }
+  const impliedMC = (function(){
+    // maintenance capex that would make the model equal the price
+    const need = (px - netCashPS) * r * sh;      // required owner earnings, total
+    return m.ni + m.da - need;
+  })();
+
+  let h = "<tr><th>For the price to be right, the market must believe…</th><th>Implied</th><th>You assumed</th></tr>";
+  h += '<tr><td>the right discount rate is</td><td class="warn" style="color:var(--warn)">'+
+       (impliedR===null?"—":pct(impliedR,2))+'</td><td class="assumed">'+pct(r,2)+'</td></tr>';
+  h += '<tr><td>owner earnings grow, for '+N+' years, at</td><td style="color:var(--warn)">'+
+       (impliedG===null?"beyond a sane range":pct(impliedG,1))+'</td><td class="assumed">'+m.i.g.toFixed(1)+'%</td></tr>';
+  h += '<tr><td>maintenance capex is</td><td style="color:var(--warn)">'+mm(impliedMC)+
+       '</td><td class="assumed">'+mm(m.mc.used)+'</td></tr>';
+  el.innerHTML = h;
+
+  const parts = [];
+  if(impliedR !== null){
+    parts.push(impliedR > r
+      ? "The price implies a discount rate of <b>"+pct(impliedR,2)+"</b>, above the <b>"+pct(r,2)+"</b> you were willing to accept — the market is demanding more compensation for this company's risk than you are."
+      : "The price implies a discount rate of only <b>"+pct(impliedR,2)+"</b>, below your <b>"+pct(r,2)+"</b> — the market is treating these earnings as safer than you do.");
+  }
+  if(impliedG !== null){
+    parts.push(impliedG > 0.10
+      ? "It also needs growth of <b>"+pct(impliedG,1)+"</b> a year to stand up. Very few small companies compound at that rate for "+N+" years, and the ones that do are rarely cheap."
+      : impliedG < 0
+      ? "It needs no growth at all — <b>"+pct(impliedG,1)+"</b> a year would do. The price is discounting decline, so the question becomes whether decline is actually coming."
+      : "It needs growth of <b>"+pct(impliedG,1)+"</b> a year, which is an ordinary rate rather than a heroic one.");
+  }
+  parts.push("Maintenance capex is the figure nobody reports and the one this model is most sensitive to. The price is consistent with <b>"+mm(impliedMC)+"</b>; you assumed <b>"+mm(m.mc.used)+"</b>. If your figure is the optimistic one, the discount is an artefact.");
+  vd.innerHTML = parts.join(" ");
+}
+
+/* ============================================================
+   PROJECTION
+   ============================================================ */
+function drawProjection(m){
+  const svg = document.getElementById("projChart");
+  const W=900, H=340, L=64, R=18, T=20, B=34;
+  const N = Math.max(1, Math.round(m.i.gYears));
+  const flat=[], grow=[];
+  const r=m.r, g=m.i.g/100;
+  let oe=m.ps.oe;
+  for(let t=0;t<=N;t++){
+    flat.push(m.ps.total);
+    if(t===0) grow.push(m.ps.total);
+    else{
+      let e=m.ps.oe, pv=0;
+      for(let k=1;k<=t;k++){ e*=(1+g); }
+      grow.push(r>0 ? e/r + m.ps.netCash : 0);
+    }
+  }
+  const all = flat.concat(grow, m.i.px>0?[m.i.px]:[]);
+  const hi = Math.max(...all)*1.08 || 1, lo = Math.min(0, Math.min(...all));
+  const x = t => L + (t/N)*(W-L-R);
+  const y = val => H-B - ((val-lo)/(hi-lo))*(H-T-B);
+  const path = arr => arr.map((v,i)=>(i?"L":"M")+x(i).toFixed(1)+","+y(v).toFixed(1)).join(" ");
+
+  let s = "";
+  // gridlines
+  for(let k=0;k<=4;k++){
+    const val = lo + (hi-lo)*k/4;
+    s += '<line x1="'+L+'" y1="'+y(val)+'" x2="'+(W-R)+'" y2="'+y(val)+'" stroke="#DDE3E8"/>'+
+         '<text x="'+(L-8)+'" y="'+(y(val)+4)+'" text-anchor="end" font-family="IBM Plex Mono" font-size="11" fill="#4A5866">'+
+         "$"+val.toFixed(0)+'</text>';
+  }
+  for(let t=0;t<=N;t+=Math.max(1,Math.round(N/6))){
+    s += '<text x="'+x(t)+'" y="'+(H-10)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#4A5866">'+
+         (t===0?"now":"+"+t+"y")+'</text>';
+  }
+  s += '<path d="'+path(grow)+'" fill="none" stroke="#A8571F" stroke-width="2"/>';
+  s += '<path d="'+path(flat)+'" fill="none" stroke="#1A5E63" stroke-width="2"/>';
+  if(m.i.px>0){
+    s += '<line x1="'+L+'" y1="'+y(m.i.px)+'" x2="'+(W-R)+'" y2="'+y(m.i.px)+
+         '" stroke="#8C2F1E" stroke-width="1.5" stroke-dasharray="5 4"/>';
+  }
+  svg.innerHTML = s;
+}
+
+/* ============================================================
+   LEDGER
+   ============================================================ */
+function recordReading(){
+  const m = model();
+  LEDGER.push({
+    when: new Date().toISOString().slice(0,10),
+    company: META ? META.name : "—",
+    cik: META ? META.cik : "",
+    period: F.periodLabel,
+    price: m.i.px,
+    iv: +m.ps.total.toFixed(2),
+    withGrowth: +m.ps.growth.toFixed(2),
+    rate: +(m.r*100).toFixed(2),
+    maintCapex: +(m.mc.used/1e6).toFixed(1),
+    discount: m.discount===null ? null : +(m.discount*100).toFixed(1)
+  });
+  renderLedger();
+}
+function renderLedger(){
+  document.getElementById("ledCount").textContent = LEDGER.length + (LEDGER.length===1?" reading":" readings");
+  const w = document.getElementById("ledWrap");
+  if(!LEDGER.length){ w.innerHTML = '<div class="empty">Nothing recorded yet. Take a reading and it lands here.</div>'; return; }
+  let h = "<table><tr><th>Recorded</th><th>Company</th><th>Period</th><th>Rate</th><th>Price</th><th>Value</th><th>Discount</th><th></th></tr>";
+  LEDGER.forEach((e,idx)=>{
+    h += '<tr><td>'+e.when+'</td><td style="font-family:\'IBM Plex Sans\'">'+e.company+'</td>'+
+         '<td style="font-size:11px;color:var(--ink-soft)">'+e.period+'</td>'+
+         '<td>'+e.rate.toFixed(2)+'%</td><td>'+(e.price?money(e.price):"—")+'</td>'+
+         '<td class="derived">'+money(e.iv)+'</td>'+
+         '<td class="'+(e.discount>0?"derived":"")+'">'+(e.discount===null?"—":e.discount.toFixed(1)+"%")+'</td>'+
+         '<td><button class="del" data-i="'+idx+'" aria-label="Delete">\u00D7</button></td></tr>';
+  });
+  w.innerHTML = h + "</table>";
+  w.querySelectorAll(".del").forEach(b=> b.onclick = ()=>{ LEDGER.splice(+b.dataset.i,1); renderLedger(); });
+}
+function exportLedger(){
+  const blob = new Blob([JSON.stringify(LEDGER,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "intrinsic-value-ledger.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* ============================================================
+   WIRING
+   ============================================================ */
+const DEFAULTS = {rf:"5.19", erp:"4.5", size:"2.5", qual:"1", g:"3", gYears:"10", mcMethod:"max"};
+
+function wire(){
+  document.getElementById("loadBtn").onclick = loadCompany;
+  document.getElementById("edgarUrl").addEventListener("keydown", e=>{ if(e.key==="Enter") loadCompany(); });
+
+  ["rf","erp","size","qual","mcMethod","mcManual","px","g","gYears","incLeases","incInv"]
+    .forEach(id=>{
+      const el = document.getElementById(id);
+      el.addEventListener("input", render);
+      el.addEventListener("change", render);
+    });
+
+  document.getElementById("pinBtn").onclick = ()=>{
+    BASE = model();
+    document.getElementById("pinTag").textContent = "Baseline pinned at " + money(BASE.ps.total);
+    render();
+  };
+  document.getElementById("resetBtn").onclick = ()=>{
+    Object.keys(DEFAULTS).forEach(k=> document.getElementById(k).value = DEFAULTS[k]);
+    document.getElementById("incLeases").checked = true;
+    document.getElementById("incInv").checked = true;
+    render();
+  };
+  document.getElementById("recBtn").onclick = recordReading;
+  document.getElementById("expBtn").onclick = exportLedger;
+  document.getElementById("impBtn").onclick = ()=> document.getElementById("impFile").click();
+  document.getElementById("impFile").onchange = ev=>{
+    const f = ev.target.files[0]; if(!f) return;
+    const rd = new FileReader();
+    rd.onload = ()=>{ try{ const j = JSON.parse(rd.result); if(Array.isArray(j)){ LEDGER = j; renderLedger(); } }catch(e){} };
+    rd.readAsText(f);
+  };
+  renderLedger();
+}
+
+if(typeof document !== "undefined") {
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
+  else wire();
+}
+</script>
+</body>
+</html>
